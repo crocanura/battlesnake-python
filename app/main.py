@@ -29,6 +29,9 @@ def build_board(data):
     return board
 
 
+# def 
+
+
 
 @bottle.route('/data')
 def static():
@@ -83,7 +86,7 @@ def move():
         board = build_board(data)
         # pass
 
-    data_dump = board
+    data_dump = [data, board]
 
 
 
