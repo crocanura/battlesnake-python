@@ -5,6 +5,13 @@ import pickle
 
 
 
+last_data_obj = None
+
+@bottle.route('/data')
+def static():
+	return pickle.dumps(last_data_obj)
+
+
 @bottle.route('/')
 def static():
     return "the server is running"
@@ -27,33 +34,26 @@ def start():
         bottle.request.urlparts.netloc
     )
 
+    ## For development
+    last_data_obj = None
+
     # TODO: Do things with data
 
     return {
-        'color': ''.join('%02x%02x%02x' % (random.randint(64,196), 0, random.randint(196, 256))).upper(),
+        'color': ''.join('#%02x%02x%02x' % (random.randint(64,196), 0, random.randint(196, 256))).upper(),
         'taunt': 'I am a snek',
         'head_url': head_url,
         'name': 'battlesnake-python',
         'head_type': 'fang'
     }
 
-pickled_request = False
 
 @bottle.post('/move')
 def move():
     data = bottle.request.json
 
-    # TODO: Do things with data
-
-    if pickled_request == False:
-    	print("trying to pickle")
-
-    	f = open("pickled_data_object", 'w')
-    	pickle.dump(data, f)
-    	f.close()
-    	pickled_request = True
-
-    	print("tried to pickle")
+    if last_data_obj == None:
+    	last_data_obj = 
     
     directions = ['up', 'down', 'left', 'right']
     direction = random.choice(directions)
