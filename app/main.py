@@ -42,7 +42,7 @@ def start():
     # TODO: Do things with data
 
     return {
-        'color': ''.join('#%02x%02x%02x' % (random.randint(64,196), 0, random.randint(196, 256))).upper(),
+        'color': ''.join('#%02x%02x%02x' % (255, random.randint(30,80), 0)).upper(),
         'taunt': 'I am a snek',
         'head_url': head_url,
         'name': 'battlesnake-python',
@@ -50,16 +50,23 @@ def start():
     }
 
 
+last_move = None
+
 @bottle.post('/move')
 def move():
     data = bottle.request.json
 
     global last_data_obj
+    global last_move
 
     if last_data_obj == None:
     	last_data_obj = data
     
-    directions = ['up', 'down', 'left', 'right']
+    # Naive snake
+    options = ['up', 'down', 'left', 'right']
+    if last_move in options:
+    	options.remove(last_move)
+
     direction = random.choice(directions)
     print direction
     return {
