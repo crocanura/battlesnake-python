@@ -29,10 +29,11 @@ def start():
     # TODO: Do things with data
 
     return {
-        'color': '#FF0044',
-        'taunt': 'I am a snek'.format(game_id, board_width, board_height),
+        'color': '#FF0088',
+        'taunt': 'I am a snek',
         'head_url': head_url,
-        'name': 'battlesnake-python'
+        'name': 'battlesnake-python',
+        'head_type': 'fang'
     }
 
 
@@ -57,6 +58,6 @@ application = bottle.default_app()
 if __name__ == '__main__':
     bottle.run(
         application,
-        host=os.getenv('IP', '0.0.0.0'),
+        host=os.getenv('IP', '127.0.0.1'),
         port=os.getenv('PORT', '8080'),
         debug = True)
