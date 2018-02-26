@@ -30,7 +30,7 @@ def start():
     # TODO: Do things with data
 
     return {
-        'color': '#9900FF',
+        'color': ''.join('%02x%02x%02x' % (random.randint(64,196), 0, random.randint(196, 256))) ,
         'taunt': 'I am a snek',
         'head_url': head_url,
         'name': 'battlesnake-python',
@@ -46,9 +46,14 @@ def move():
     # TODO: Do things with data
 
     if pickled_request == False:
+    	print("trying to pickle")
+
     	f = open("pickled_data_object")
     	pickle.dump(data, f)
     	f.close()
+    	pickled_request = True
+
+    	print("tried to pickle")
     
     directions = ['up', 'down', 'left', 'right']
     direction = random.choice(directions)
