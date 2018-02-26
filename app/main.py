@@ -17,7 +17,7 @@ def build_board(data):
         for j in range(data.get('height')):
             board[i].append({})
 
-    for snake in data['snakes']:
+    for snake in data['snakes']['data']:
         body = snake['body']['data']
         for i in range(snake['length']):
             point = body[i]
@@ -80,10 +80,10 @@ def move():
     # game board
     board = None
     if data != None:
-        board = build_board(data)
-        # pass
+        # board = build_board(data)
+        pass
 
-    data_dump = board
+    data_dump = data
 
 
 
