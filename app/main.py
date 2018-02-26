@@ -58,14 +58,12 @@ def start():
         bottle.request.urlparts.netloc
     )
 
-    world = data.get('world')
-
     ## For development
     global data_dump
 
 
     # game board
-    board = build_board(world)
+    board = build_board(data)
 
     data_dump = board
 
