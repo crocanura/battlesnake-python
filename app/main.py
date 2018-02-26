@@ -67,7 +67,7 @@ def move():
     if last_move in options:
     	options.remove(last_move)
 
-    direction = random.choice(directions)
+    direction = random.choice(options)
     print direction
     return {
         'move': direction,
