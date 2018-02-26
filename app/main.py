@@ -23,6 +23,8 @@ def build_board(data):
     		point = body[i]
     		board[point['x']][point['y']]['snake'] = {snake['name']:i}
 
+    for food in data['food']['data']:
+    	board[food['x']][food['y']]['food'] = True
 
 
 
