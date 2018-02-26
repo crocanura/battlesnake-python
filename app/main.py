@@ -7,7 +7,7 @@ import pickle
 
 @bottle.route('/data')
 def static():
-	return pickle.dumps(last_data_obj)
+	return (pickle.dumps(last_data_obj))
 
 
 @bottle.route('/')
@@ -60,13 +60,6 @@ def move():
         'move': direction,
         'taunt': 'I go!'
     }
-
-
-
-
-#INITIALIZATION
-last_data_obj = None
-
 
 
 # Expose WSGI app (so gunicorn can find it)
