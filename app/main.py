@@ -65,9 +65,10 @@ def start():
     # game board
     board = None
     if data != None:
-        board = build_board(data)
+        # board = build_board(data)
+        pass
 
-    data_dump = board
+    data_dump = data
 
     # TODO: Do things with data
 
