@@ -5,7 +5,25 @@ import pickle
 
 
 
-last_data_obj = None
+last_data_obj = None #REMOVE WHEN POSSIBLE
+last_move = None #REMOVE WHEN POSSIBLE
+
+
+
+def build_board(data):
+	board = []
+    for i in range(data.get('width')):
+    	board.append([])
+    	for j in range(data.get('height')):
+    		board[i].append({})
+
+    for snake in data['snakes']:
+    	body = snake['body']['data']
+    	for i in range(snake['length']):
+    		point = body[i]
+    		board[point['x']][point['y']]['snake'] = {snake['name']:i}
+
+
 
 
 @bottle.route('/data')
@@ -30,6 +48,7 @@ def start():
     board_width = data.get('width')
     board_height = data.get('height')
 
+
     head_url = '%s://%s/static/head.png' % (
         bottle.request.urlparts.scheme,
         bottle.request.urlparts.netloc
@@ -38,6 +57,10 @@ def start():
     ## For development
     global last_data_obj
     last_data_obj = None
+
+
+    # game board
+    # board = build_board(data)
 
     # TODO: Do things with data
 
@@ -49,8 +72,6 @@ def start():
         'head_type': 'fang'
     }
 
-
-last_move = None
 
 @bottle.post('/move')
 def move():
