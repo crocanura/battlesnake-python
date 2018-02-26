@@ -5,7 +5,7 @@ import pickle
 
 
 
-last_data_obj = None #REMOVE WHEN POSSIBLE
+data_dump = None #REMOVE WHEN POSSIBLE
 last_move = None #REMOVE WHEN POSSIBLE
 
 
@@ -28,7 +28,7 @@ def build_board(data):
 
 @bottle.route('/data')
 def static():
-	return (pickle.dumps(last_data_obj))
+	return (pickle.dumps(data_dump))
 
 
 @bottle.route('/')
@@ -55,12 +55,13 @@ def start():
     )
 
     ## For development
-    global last_data_obj
-    last_data_obj = None
+    global data_dump
 
 
     # game board
-    # board = build_board(data)
+    board = build_board(data)
+
+    data_dump = board
 
     # TODO: Do things with data
 
@@ -77,11 +78,8 @@ def start():
 def move():
     data = bottle.request.json
 
-    global last_data_obj
-    global last_move
 
-    if last_data_obj == None:
-    	last_data_obj = data
+    global last_move
     
     # Naive snake
     options = ['up', 'down', 'left', 'right']
