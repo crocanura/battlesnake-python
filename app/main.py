@@ -5,6 +5,9 @@ import pickle
 
 
 
+last_data_obj = None
+
+
 @bottle.route('/data')
 def static():
 	return (pickle.dumps(last_data_obj))
@@ -51,7 +54,7 @@ def move():
     data = bottle.request.json
 
     if last_data_obj == None:
-    	last_data_obj = 
+    	last_data_obj = data
     
     directions = ['up', 'down', 'left', 'right']
     direction = random.choice(directions)
