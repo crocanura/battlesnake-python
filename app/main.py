@@ -80,10 +80,10 @@ def move():
     # game board
     board = None
     if data != None:
-        # board = build_board(data)
-        pass
+        board = build_board(data)
+        # pass
 
-    data_dump = data
+    data_dump = board
 
 
 
