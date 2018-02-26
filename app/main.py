@@ -36,6 +36,7 @@ def start():
     )
 
     ## For development
+    global last_data_obj
     last_data_obj = None
 
     # TODO: Do things with data
@@ -52,6 +53,8 @@ def start():
 @bottle.post('/move')
 def move():
     data = bottle.request.json
+
+    global last_data_obj
 
     if last_data_obj == None:
     	last_data_obj = data
