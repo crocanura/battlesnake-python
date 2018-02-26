@@ -1,6 +1,7 @@
 import bottle
 import os
 import random
+import pickle
 
 
 
@@ -29,26 +30,32 @@ def start():
     # TODO: Do things with data
 
     return {
-        'color': '#FF0088',
+        'color': '#9900FF',
         'taunt': 'I am a snek',
         'head_url': head_url,
         'name': 'battlesnake-python',
         'head_type': 'fang'
     }
 
+pickled_request = False
 
 @bottle.post('/move')
 def move():
     data = bottle.request.json
 
     # TODO: Do things with data
+
+    if pickled_request == False:
+    	f = open("pickled_data_object")
+    	pickle.dump(data, f)
+    	f.close()
     
     directions = ['up', 'down', 'left', 'right']
     direction = random.choice(directions)
     print direction
     return {
         'move': direction,
-        'taunt': 'battlesnake-python!'
+        'taunt': 'I go!'
     }
 
 
