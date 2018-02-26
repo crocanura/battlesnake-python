@@ -11,26 +11,26 @@ last_move = None #REMOVE WHEN POSSIBLE
 
 
 def build_board(data):
-	board = []
+    board = []
     for i in range(data.get('width')):
-    	board.append([])
-    	for j in range(data.get('height')):
-    		board[i].append({})
+        board.append([])
+        for j in range(data.get('height')):
+            board[i].append({})
 
     for snake in data['snakes']:
-    	body = snake['body']['data']
-    	for i in range(snake['length']):
-    		point = body[i]
-    		board[point['x']][point['y']]['snake'] = {snake['name']:i}
+        body = snake['body']['data']
+        for i in range(snake['length']):
+            point = body[i]
+            board[point['x']][point['y']]['snake'] = {snake['name']:i}
 
     for food in data['food']['data']:
-    	board[food['x']][food['y']]['food'] = True
+        board[food['x']][food['y']]['food'] = True
 
 
 
 @bottle.route('/data')
 def static():
-	return (pickle.dumps(data_dump))
+    return (pickle.dumps(data_dump))
 
 
 @bottle.route('/')
@@ -86,7 +86,7 @@ def move():
     # Naive snake
     options = ['up', 'down', 'left', 'right']
     if last_move in options:
-    	options.remove(last_move)
+        options.remove(last_move)
 
     direction = random.choice(options)
     print direction
