@@ -12,19 +12,19 @@ last_move = None #REMOVE WHEN POSSIBLE
 
 def build_board(data):
     board = []
-    for i in range(data.get('width')):
+    for i in range(data.get('height')):
         board.append([])
-        for j in range(data.get('height')):
+        for j in range(data.get('width')):
             board[i].append({})
 
     for snake in data['snakes']['data']:
         body = snake['body']['data']
         for i in range(snake['length']):
             point = body[i]
-            board[point['x']][point['y']]['snake'] = {snake['name']:i}
+            board[point['y']][point['x']]['snake'] = {snake['name']:i}
 
     for food in data['food']['data']:
-        board[food['x']][food['y']]['food'] = True
+        board[food['y']][food['x']]['food'] = True
 
     return board
 
