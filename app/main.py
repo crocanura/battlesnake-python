@@ -17,16 +17,14 @@ def build_board(data):
         for j in range(data.get('height')):
             board[i].append({})
 
-    if 'snakes' in data:
-        for snake in data['snakes']:
-            body = snake['body']['data']
-            for i in range(snake['length']):
-                point = body[i]
-                board[point['x']][point['y']]['snake'] = {snake['name']:i}
+    for snake in data['snakes']:
+        body = snake['body']['data']
+        for i in range(snake['length']):
+            point = body[i]
+            board[point['x']][point['y']]['snake'] = {snake['name']:i}
 
-    if 'food' in data:
-        for food in data['food']['data']:
-            board[food['x']][food['y']]['food'] = True
+    for food in data['food']['data']:
+        board[food['x']][food['y']]['food'] = True
 
     return board
 
@@ -65,7 +63,9 @@ def start():
 
 
     # game board
-    board = build_board(data)
+    board = None
+    if data != None:
+        board = build_board(data)
 
     data_dump = board
 
