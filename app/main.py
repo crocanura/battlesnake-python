@@ -28,6 +28,8 @@ def build_board(data):
         for food in data['food']['data']:
             board[food['x']][food['y']]['food'] = True
 
+    return board
+
 
 
 @bottle.route('/data')
