@@ -58,18 +58,6 @@ def start():
         bottle.request.urlparts.netloc
     )
 
-    ## For development
-    global data_dump
-
-
-    # game board
-    board = None
-    if data != None:
-        # board = build_board(data)
-        pass
-
-    data_dump = data
-
     # TODO: Do things with data
 
     return {
@@ -85,7 +73,20 @@ def start():
 def move():
     data = bottle.request.json
 
+    ## For development
+    global data_dump
 
+
+    # game board
+    board = None
+    if data != None:
+        # board = build_board(data)
+        pass
+
+    data_dump = data
+
+
+    
     global last_move
     
     # Naive snake
