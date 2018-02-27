@@ -70,16 +70,11 @@ def updown(y):
         return 'down'
     return 'up'
 
-def grid_loc_in_dir(tup, direction): 
-    if direction == "right":
-        return (tup[0]+1, tup[1])
-    if direction == 'left':
-        return (tup[0]-1, tup[1])
-    if direction == 'up':
-        return (tup[0], tup[1]-1)
-    if direction == 'down':
-        return (tup[0], tup[1]+1)
-    return None
+# like a function of type f(direction, tup) but marginally faster
+grid_loc_in_dir['right'] = lambda tup: (tup[0]+1, tup[1])
+grid_loc_in_dir['left'] = lambda tup: (tup[0]-1, tup[1])
+grid_loc_in_dir['up'] = lambda tup: (tup[0], tup[1]-1)
+grid_loc_in_dir['down'] = lambda tup: (tup[0], tup[1]+1)
 
 # taxicab distance function
 taxicab = lambda here, there: abs(here[0]-there[0]) + abs(here[1]-there[1])
@@ -94,6 +89,14 @@ def myopic_move(data, board):
 
     open_squares = neighbours(here, width, height)
     open_squares = filter(lambda tup: 'snake' not in board[tup[1]][tup[0]], open_squares)
+    for square in open squares:
+        for cell in neighbours(square):
+            if 'snake' in cell:
+                for name in cell['snake']:
+                    if cell['snake'][name] == 0:
+                        if not (cell['x'] == data['you']['body']['data'][0]['x']):
+                            if not (cell['x'] == data['you']['body']['data'][0]['x']):
+                                open_squares.remove(square)
 
     foods = sorted(data['food']['data'], key = lambda food: math.ceil(taxicab(here, (food['x'],food['y']))))
 
