@@ -222,7 +222,7 @@ def move():
     print direction
     return {
         'move': direction,
-        'taunt': 'tauntstr'
+        'taunt': tauntstr
     }
 
 
