@@ -164,7 +164,7 @@ def static():
     return (pickle.dumps(data_dump))
 
 def doit():
-    b = Board()
+    b = board.Board()
     b.set_grid(40,40)
     for col in b.grid:
         for cell in col:
