@@ -93,7 +93,7 @@ def myopic_move(data, board):
     height = data.get('height')
 
     open_squares = neighbours(here, width, height)
-    open_squares = filter(lambda cell: 'snake' not in cell, cells)
+    open_squares = filter(lambda cell: 'snake' not in cell, open_squares)
 
     foods = sorted(data['food']['data'], key = lambda food: math.ceil(taxicab(here, (food['x'],food['y']))))
 
