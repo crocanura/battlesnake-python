@@ -3,7 +3,7 @@ import os
 import math
 
 from common import *
-# import board
+import board
 
 import pickle
 import random
