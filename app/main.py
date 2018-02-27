@@ -135,7 +135,7 @@ def myopic_move(data, board):
             preferences.append('up')
 
     for direction in preferences:
-        hope = grid_loc_in_dir(here, direction)
+        hope = grid_loc_in_dir[direction](here)
         if hope in open_squares:
             return direction
 
