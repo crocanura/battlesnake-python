@@ -1,8 +1,9 @@
 import bottle
 import os
-import random
-import pickle
+import math
 
+import pickle
+import random
 
 
 data_dump = None #REMOVE WHEN POSSIBLE
@@ -29,7 +30,110 @@ def build_board(data):
     return board
 
 
-# def 
+# boolean that tell you if such a key is in one of the cell dictionaries
+def among(x, cells):
+    for cell in cells:
+        if x in cell:
+            return True
+    return False
+
+
+# returns a list of x,y tuples of the neighbors to a cell
+def neighbours(here, width, height):
+
+    vals = []
+    if x + 1 < width:
+        vals.append(here[0], here[1]+1)
+    if x - 1 >= 0:
+        vals.append(here[0], here[1]-1)
+    if y + 1 < height:
+        vals.append(here[0]+1, here[1])
+    if y - 1 >= 0:
+        vals.append(here[0]-1, here[1])
+
+    return vals
+
+
+directions = ['left', 'right', 'up', 'down']
+
+# if this is x2 - x1, is x2 on the right or the left?
+def leftright(x):
+    if x >= 0:
+        return 'right'
+    return 'left'
+
+# if this is x2 - x1, is x2 on the top or the bottom?
+def updown(y):
+    if y >= 0:
+        return 'down'
+    return 'up'
+
+def grid_loc_in_dir(tup, direction): 
+    if direction == "right":
+        return (tup[0]+1, tup[1])
+    if direction == 'left':
+        return (tup[0]-1, tup[1])
+    if direction == 'up':
+        return (tup[0], tup[1]-1)
+    if direction == 'down':
+        return (tup[0], tup[1]+1)
+    return None
+
+# taxicab distance function
+taxicab = lambda here, there: abs(here[0]-there[0]) + abs(here[1]-there[1])
+
+
+
+def myopic_move(data, board):
+    head = data['you']['body']['data'][0]
+    here = (head['x'], head['y'])
+    width = data.get('width')
+    height = data.get('height')
+
+    open_squares = neighbours(here, width, height)
+    open_squares = filter(lambda cell: 'snake' not in cell, cells)
+
+    foods = sorted(data['food']['data'], key = lambda food: math.ceil(taxicab(here, (food['x'],food['y']))))
+
+    target = (foods[0]['x'], foods[0]['y'])
+
+    vec = (target[0] - here[0], target[1] - here[1])
+
+    preferences = []
+    if abs(vec[0]) >= abs(vec[1]):
+        preferences.append(leftright(vec[0]))
+        preferences.append(updown(vec[1]))
+        if 'up' in preferences:
+            preferences.append('down')
+        else:
+            preferences.append('up')
+        if 'right' in preferences:
+            preferences.append('left')
+        else:
+            preferences.append('right')
+    else:
+        preferences.append(updown(vec[1]))
+        preferences.append(leftright(vec[0]))
+        if 'right' in preferences:
+            preferences.append('left')
+        else:
+            preferences.append('right')
+        if 'up' in preferences:
+            preferences.append('down')
+        else:
+            preferences.append('up')
+
+    for direction in preferences:
+        hope = grid_loc_in_dir(here, direction)
+        if hope in open_squares:
+            return direction
+
+    return 'up'
+        
+
+
+    # neighbour_cells = map(lambda tup: board[tup[1]][tup[0]], neighbours(here, width, height))
+    # destinations = filter(lambda cell: 'snake' not in cell, neighbour_cells)
 
 
 
@@ -89,15 +193,18 @@ def move():
     data_dump = [data, board]
 
 
+    direction = myopic_move(data, board)
 
-    global last_move
+    # global last_move
     
     # Naive snake
-    options = ['up', 'down', 'left', 'right']
-    if last_move in options:
-        options.remove(last_move)
+    # options = ['up', 'down', 'left', 'right']
+    # if last_move in options:
+    #     options.remove(last_move)
 
-    direction = random.choice(options)
+    # direction = random.choice(options)
+
+
     print direction
     return {
         'move': direction,
