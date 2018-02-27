@@ -72,6 +72,7 @@ def updown(y):
     return 'up'
 
 # like a function of type f(direction, tup) but marginally faster
+grid_loc_in_dir = {}
 grid_loc_in_dir['right'] = lambda tup: (tup[0]+1, tup[1])
 grid_loc_in_dir['left'] = lambda tup: (tup[0]-1, tup[1])
 grid_loc_in_dir['up'] = lambda tup: (tup[0], tup[1]-1)
