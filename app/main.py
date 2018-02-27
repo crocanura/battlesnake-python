@@ -6,9 +6,10 @@ import pickle
 import random
 
 
+#GLOBALS
 data_dump = None #REMOVE WHEN POSSIBLE
 last_move = None #REMOVE WHEN POSSIBLE
-
+tauntstr = 'I am snek'
 
 
 def build_board(data):
@@ -82,6 +83,9 @@ taxicab = lambda here, there: abs(here[0]-there[0]) + abs(here[1]-there[1])
 
 
 def myopic_move(data, board):
+    global tauntstr
+    tauntstr = 'Food!'
+
     head = data['you']['body']['data'][0]
     here = (head['x'], head['y'])
     width = data.get('width')
@@ -97,6 +101,8 @@ def myopic_move(data, board):
                         if not (cell['x'] == data['you']['body']['data'][0]['x']):
                             if not (cell['x'] == data['you']['body']['data'][0]['x']):
                                 open_squares.remove(square)
+                                    tauntstr = '%sH'%(''.join('A' for i in range(randint(2,10))))
+                                    tauntstr += ''.join('!' for i in range(randint(1,4)))
 
     foods = sorted(data['food']['data'], key = lambda food: math.ceil(taxicab(here, (food['x'],food['y']))))
 
@@ -174,7 +180,7 @@ def start():
 
     return {
         'color': ''.join('#%02x%02x%02x' % (255, random.randint(30,80), 0)).upper(),
-        'taunt': 'I am a snek',
+        'taunt': tauntstr,
         'head_url': head_url,
         'name': 'battlesnake-python',
         'head_type': 'fang'
