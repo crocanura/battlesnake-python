@@ -18,6 +18,8 @@ def build_board(data):
         board.append([])
         for j in range(data.get('width')):
             board[i].append({})
+            board[i][j]['x'] = j
+            board[i][j]['y'] = i
 
     for snake in data['snakes']['data']:
         body = snake['body']['data']
