@@ -41,6 +41,8 @@ def among(x, cells):
 # returns a list of x,y tuples of the neighbors to a cell
 def neighbours(here, width, height):
 
+    x, y = here
+
     vals = []
     if x + 1 < width:
         vals.append(here[0], here[1]+1)
