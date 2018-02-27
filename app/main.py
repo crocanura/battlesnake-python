@@ -2,6 +2,9 @@ import bottle
 import os
 import math
 
+from common import *
+# import board
+
 import pickle
 import random
 
@@ -154,9 +157,23 @@ def myopic_move(data, board):
 
 
 
+# DEVELOPEMENT PAGES
+
 @bottle.route('/data')
 def static():
     return (pickle.dumps(data_dump))
+
+def doit():
+    b = Board()
+    b.set_grid(40,40)
+    for col in b.grid:
+        for cell in col:
+            c = b.neighbours(cell)
+
+
+@bottle.route('/searchtime')
+def static():
+    return str(stopwatch(doit, ()))
 
 
 @bottle.route('/')
