@@ -45,13 +45,13 @@ def neighbours(here, width, height):
 
     vals = []
     if x + 1 < width:
-        vals.append(here[0], here[1]+1)
+        vals.append(tuple(here[0], here[1]+1))
     if x - 1 >= 0:
-        vals.append(here[0], here[1]-1)
+        vals.append(tuple(here[0], here[1]-1))
     if y + 1 < height:
-        vals.append(here[0]+1, here[1])
+        vals.append(tuple(here[0]+1, here[1]))
     if y - 1 >= 0:
-        vals.append(here[0]-1, here[1])
+        vals.append(tuple(here[0]-1, here[1]))
 
     return vals
 
