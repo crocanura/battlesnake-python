@@ -102,12 +102,11 @@ def myopic_move(data, board):
             if 'snake' in cell:
                 for name in cell['snake']:
                     if cell['snake'][name] == 0:
-                        if not (cell['x'] == data['you']['body']['data'][0]['x']):
-                            if not (cell['x'] == data['you']['body']['data'][0]['x']):
-                                open_squares.remove(square)
-                                tauntstr = '%sH'%(''.join('A' for i in range(random.randint(2,10))))
-                                tauntstr += ''.join('!' for i in range(random.randint(1,4)))
-                                print tauntstr
+                        if not ((cell['x'] == data['you']['body']['data'][0]['x']) and (cell['x'] == data['you']['body']['data'][0]['x'])):
+                            open_squares.remove(square)
+                            tauntstr = '%sH'%(''.join('A' for i in range(random.randint(2,10))))
+                            tauntstr += ''.join('!' for i in range(random.randint(1,4)))
+                            print tauntstr
                                 
 
     foods = sorted(data['food']['data'], key = lambda food: math.ceil(taxicab(here, (food['x'],food['y']))))
