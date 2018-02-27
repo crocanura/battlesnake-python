@@ -207,7 +207,7 @@ def move():
         board = build_board(data)
         # pass
 
-    data_dump = [data, board]
+    data_dump = data
 
 
     direction = myopic_move(data, board)
