@@ -96,7 +96,7 @@ def myopic_move(data, board):
     open_squares = filter(lambda tup: 'snake' not in board[tup[1]][tup[0]], open_squares)
     for square in open_squares:
         # if among('snake', [board[t[1]][t[0]] for t in neighbours(square, width, height)]):
-        for cell in neighbours(square, width, height):
+        for cell in [board[t[1]][t[0]] for t in neighbours(square, width, height)]:
             if 'snake' in cell:
                 for name in cell['snake']:
                     if cell['snake'][name] == 0:
