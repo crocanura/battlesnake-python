@@ -103,8 +103,9 @@ def myopic_move(data, board):
                         if not (cell['x'] == data['you']['body']['data'][0]['x']):
                             if not (cell['x'] == data['you']['body']['data'][0]['x']):
                                 open_squares.remove(square)
-                                tauntstr = '%sH'%(''.join('A' for i in range(randint(2,10))))
-                                tauntstr += ''.join('!' for i in range(randint(1,4)))
+                                tauntstr = '%sH'%(''.join('A' for i in range(random.randint(2,10))))
+                                tauntstr += ''.join('!' for i in range(random.randint(1,4)))
+                                print tauntstr
                                 
 
     foods = sorted(data['food']['data'], key = lambda food: math.ceil(taxicab(here, (food['x'],food['y']))))
