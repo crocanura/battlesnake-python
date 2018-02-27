@@ -95,15 +95,17 @@ def myopic_move(data, board):
     open_squares = neighbours(here, width, height)
     open_squares = filter(lambda tup: 'snake' not in board[tup[1]][tup[0]], open_squares)
     for square in open_squares:
-        for cell in neighbours(square, width, height):
-            if 'snake' in cell:
-                for name in cell['snake']:
-                    if cell['snake'][name] == 0:
-                        if not (cell['x'] == data['you']['body']['data'][0]['x']):
-                            if not (cell['x'] == data['you']['body']['data'][0]['x']):
-                                open_squares.remove(square)
-                                tauntstr = '%sH'%(''.join('A' for i in range(randint(2,10))))
-                                tauntstr += ''.join('!' for i in range(randint(1,4)))
+        if among('snake', neighbours(square, width, height)):
+            open_squares.remove(square)
+            tauntstr = '%sH'%(''.join('A' for i in range(randint(2,10))))
+            tauntstr += ''.join('!' for i in range(randint(1,4)))
+        # for cell in neighbours(square, width, height):
+        #     if 'snake' in cell:
+        #         for name in cell['snake']:
+        #             if cell['snake'][name] == 0:
+        #                 if not (cell['x'] == data['you']['body']['data'][0]['x']):
+        #                     if not (cell['x'] == data['you']['body']['data'][0]['x']):
+            
 
     foods = sorted(data['food']['data'], key = lambda food: math.ceil(taxicab(here, (food['x'],food['y']))))
 
