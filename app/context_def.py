@@ -1,6 +1,5 @@
 from common import *
 import board_def
-import snake_def
 
 class Context:
 	def __init__(self, request):
