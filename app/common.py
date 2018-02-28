@@ -32,6 +32,13 @@ def updown(y):
 		return d.down
 	return d.up
 
+vector_sum = lambda x1, y1, x2, y2: (x2+x1, y2+y1)
+vector_difference = lambda x1, y1, x2, y2: (x2-x1, y2-y1)
+vector_inverted = lambda x, y: (-x, -y)
+vector_scaled = lambda x, y, a: (a*x, a*y)
+vector_length = lambda x, y: math.sqrt(x*x + y*y)
+vector_taxicab = lambda x, y: abs(x)+abs(y)
+
 def closest_direction(tail, head):
 	dx = head[0] - tail[0]
 	dy = head[1] - tail[1]

@@ -68,7 +68,7 @@ def move():
 	b = time.time()
 	print "Initial setup took %s" % str(b-a) 
 
-	direction = 'up'
+	direction = last_context.harmonic_move()
 	tauntstr = 'wioahdfiuishg'
 
 	return {

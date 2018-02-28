@@ -1,0 +1,406 @@
+{
+  "width": 9,
+  "height": 15,
+  "id": 442,
+  "turn": 30,
+  "snakes": {
+    "data": [
+      {
+        "id": "155fc818-5acd-4ff2-a150-94ce87e7e615",
+        "health": 98,
+        "length": 14,
+        "taunt": "\"Hi\"",
+        "name": "============(>^_^)>",
+        "object": "snake",
+        "body": {
+          "data": [
+            {
+              "object": "point",
+              "x": 2,
+              "y": 12
+            },
+            {
+              "object": "point",
+              "x": 1,
+              "y": 12
+            },
+            {
+              "object": "point",
+              "x": 0,
+              "y": 12
+            },
+            {
+              "object": "point",
+              "x": 0,
+              "y": 11
+            },
+            {
+              "object": "point",
+              "x": 0,
+              "y": 10
+            },
+            {
+              "object": "point",
+              "x": 1,
+              "y": 10
+            },
+            {
+              "object": "point",
+              "x": 2,
+              "y": 10
+            },
+            {
+              "object": "point",
+              "x": 3,
+              "y": 10
+            },
+            {
+              "object": "point",
+              "x": 4,
+              "y": 10
+            },
+            {
+              "object": "point",
+              "x": 4,
+              "y": 9
+            },
+            {
+              "object": "point",
+              "x": 3,
+              "y": 9
+            },
+            {
+              "object": "point",
+              "x": 3,
+              "y": 8
+            },
+            {
+              "object": "point",
+              "x": 4,
+              "y": 8
+            },
+            {
+              "object": "point",
+              "x": 5,
+              "y": 8
+            }
+          ],
+          "object": "list"
+        }
+      },
+      {
+        "id": "4019cb97-ed2d-4ba1-afed-de091b390cfa",
+        "health": 85,
+        "length": 6,
+        "taunt": "\"Watch me fly!\"",
+        "name": "Bird Brain",
+        "object": "snake",
+        "body": {
+          "data": [
+            {
+              "object": "point",
+              "x": 5,
+              "y": 3
+            },
+            {
+              "object": "point",
+              "x": 5,
+              "y": 4
+            },
+            {
+              "object": "point",
+              "x": 6,
+              "y": 4
+            },
+            {
+              "object": "point",
+              "x": 7,
+              "y": 4
+            },
+            {
+              "object": "point",
+              "x": 7,
+              "y": 5
+            },
+            {
+              "object": "point",
+              "x": 7,
+              "y": 6
+            }
+          ],
+          "object": "list"
+        }
+      },
+      {
+        "id": "e7831373-e094-4d5c-bcac-2f15e9f270cd",
+        "health": 100,
+        "length": 12,
+        "taunt": "\"Moving right, targeting Food\"",
+        "name": "Heroku Slashterix",
+        "object": "snake",
+        "body": {
+          "data": [
+            {
+              "object": "point",
+              "x": 8,
+              "y": 10
+            },
+            {
+              "object": "point",
+              "x": 7,
+              "y": 10
+            },
+            {
+              "object": "point",
+              "x": 6,
+              "y": 10
+            },
+            {
+              "object": "point",
+              "x": 6,
+              "y": 11
+            },
+            {
+              "object": "point",
+              "x": 6,
+              "y": 12
+            },
+            {
+              "object": "point",
+              "x": 6,
+              "y": 13
+            },
+            {
+              "object": "point",
+              "x": 7,
+              "y": 13
+            },
+            {
+              "object": "point",
+              "x": 8,
+              "y": 13
+            },
+            {
+              "object": "point",
+              "x": 8,
+              "y": 14
+            },
+            {
+              "object": "point",
+              "x": 7,
+              "y": 14
+            },
+            {
+              "object": "point",
+              "x": 6,
+              "y": 14
+            },
+            {
+              "object": "point",
+              "x": 6,
+              "y": 14
+            }
+          ],
+          "object": "list"
+        }
+      },
+      {
+        "id": "1281fe9a-9b1e-407b-8128-09d3704528a3",
+        "health": 98,
+        "length": 8,
+        "taunt": "\"??8 ~ L: 0 R: 0.763 D: 0.497 U: 0.58\"",
+        "name": "Secret Snake",
+        "object": "snake",
+        "body": {
+          "data": [
+            {
+              "object": "point",
+              "x": 4,
+              "y": 4
+            },
+            {
+              "object": "point",
+              "x": 3,
+              "y": 4
+            },
+            {
+              "object": "point",
+              "x": 2,
+              "y": 4
+            },
+            {
+              "object": "point",
+              "x": 1,
+              "y": 4
+            },
+            {
+              "object": "point",
+              "x": 0,
+              "y": 4
+            },
+            {
+              "object": "point",
+              "x": 0,
+              "y": 5
+            },
+            {
+              "object": "point",
+              "x": 1,
+              "y": 5
+            },
+            {
+              "object": "point",
+              "x": 1,
+              "y": 6
+            }
+          ],
+          "object": "list"
+        }
+      }
+    ],
+    "object": "list"
+  },
+  "food": {
+    "data": [
+      {
+        "object": "point",
+        "x": 1,
+        "y": 14
+      },
+      {
+        "object": "point",
+        "x": 7,
+        "y": 0
+      },
+      {
+        "object": "point",
+        "x": 0,
+        "y": 1
+      },
+      {
+        "object": "point",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "object": "point",
+        "x": 3,
+        "y": 11
+      },
+      {
+        "object": "point",
+        "x": 8,
+        "y": 5
+      },
+      {
+        "object": "point",
+        "x": 0,
+        "y": 3
+      },
+      {
+        "object": "point",
+        "x": 3,
+        "y": 0
+      },
+      {
+        "object": "point",
+        "x": 4,
+        "y": 5
+      },
+      {
+        "object": "point",
+        "x": 6,
+        "y": 3
+      },
+      {
+        "object": "point",
+        "x": 2,
+        "y": 14
+      },
+      {
+        "object": "point",
+        "x": 2,
+        "y": 7
+      }
+    ],
+    "object": "list"
+  },
+  "object": "world",
+  "dead_snakes": {
+    "data": [],
+    "object": "list"
+  },
+  "you": {
+    "id": "e7831373-e094-4d5c-bcac-2f15e9f270cd",
+    "health": 100,
+    "length": 12,
+    "taunt": "\"Moving right, targeting Food\"",
+    "name": "Heroku Slashterix",
+    "object": "snake",
+    "body": {
+      "data": [
+        {
+          "object": "point",
+          "x": 8,
+          "y": 10
+        },
+        {
+          "object": "point",
+          "x": 7,
+          "y": 10
+        },
+        {
+          "object": "point",
+          "x": 6,
+          "y": 10
+        },
+        {
+          "object": "point",
+          "x": 6,
+          "y": 11
+        },
+        {
+          "object": "point",
+          "x": 6,
+          "y": 12
+        },
+        {
+          "object": "point",
+          "x": 6,
+          "y": 13
+        },
+        {
+          "object": "point",
+          "x": 7,
+          "y": 13
+        },
+        {
+          "object": "point",
+          "x": 8,
+          "y": 13
+        },
+        {
+          "object": "point",
+          "x": 8,
+          "y": 14
+        },
+        {
+          "object": "point",
+          "x": 7,
+          "y": 14
+        },
+        {
+          "object": "point",
+          "x": 6,
+          "y": 14
+        },
+        {
+          "object": "point",
+          "x": 6,
+          "y": 14
+        }
+      ],
+      "object": "list"
+    }
+  }
+}

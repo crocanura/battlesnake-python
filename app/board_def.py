@@ -7,11 +7,12 @@ class Cell:
 		self.y = y
 
 		self.contains = {}
+		self.scouting_numbers = {}
+		self.scouting_delay = 0
 		# "food": True or False
 		# "snakes": [(lennon, 0), (lennon, 2)]
 		# where lennon is a snake, and 0 and 2 are the indices of it's parts that fall in the cell
 	
-
 	def xy(self):
 		return (self.x, self.y)
 
@@ -20,6 +21,8 @@ class Cell:
 class Snake:
 	def __init__(self, snakedata):
 		self.data = snakedata
+
+		self.scouted = []
 
 	def health(self):
 		return self.data['health']
