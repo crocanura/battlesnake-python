@@ -39,9 +39,9 @@ vector_scaled = lambda x, y, a: (a*x, a*y)
 vector_length = lambda x, y: math.sqrt(x*x + y*y)
 vector_taxicab = lambda x, y: abs(x)+abs(y)
 
-def closest_direction(tail, head):
-	dx = head[0] - tail[0]
-	dy = head[1] - tail[1]
+def closest_direction(tailx, taily, headx, heady):
+	dx = headx - tailx
+	dy = heady - taily
 	if abs(dx) >= abs(dy):
 		return leftright(dx)
 	return updown(dy)

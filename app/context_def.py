@@ -51,14 +51,14 @@ class Context:
 		snakepart_weighting = (0,0)
 		for id in self.snakes:
 			for loc in self.snakes[id].body():
-				vec = vector_difference(*loc,*here)
+				vec = vector_difference(*loc+here) # loc+here is the combines tuple
 				d = vector_taxicab(*vec)
-				if d >= 0:
-					weight = 1/(vector_length(vec)*d*4*3)
-					weight_vec = vector_scaled(*vec, weight)
-					snakepart_weighting = vector_sum(*snakepart_weighting, vec*)
+				if d > 0:
+					weight = 1/(vector_length(*vec)*d*4*3)
+					weight_vec = vector_scaled(vec[0], vec[1], weight)
+					snakepart_weighting = vector_sum(*snakepart_weighting+vec)
 
-		return closest_direction((0,0), *vector_inverted(*snakepart_weighting))
+		return closest_direction(0, 0, *vector_inverted(*snakepart_weighting))
 
 
 
