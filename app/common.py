@@ -9,11 +9,11 @@ import pickle
 
 
 class DirectionClass:
-	def __init__(self):
-		self.left = (-1,0)
-		self.right = (1,0)
-		self.up = (0,-1)
-		self.down = (0,1)
+    def __init__(self):
+        self.left = (-1,0)
+        self.right = (1,0)
+        self.up = (0,-1)
+        self.down = (0,1)
 
 d = DirectionClass()
 directions = [d.left, d.right, d.up, d.down]
@@ -24,52 +24,52 @@ directionary['up'] = d.up
 directionary['down'] = d.down
 
 def leftright(x):
-	if x >= 0:
-		return d.right
-	return d.left
+    if x >= 0:
+        return d.right
+    return d.left
 def updown(y):
-	if y >= 0:
-		return d.down
-	return d.up
+    if y >= 0:
+        return d.down
+    return d.up
 
 def closest_direction(tail, head):
-	dx = head[0] - tail[0]
-	dy = head[1] - tail[1]
-	if abs(dx) >= abs(dy):
-		return leftright(dx)
-	return updown(dy)
+    dx = head[0] - tail[0]
+    dy = head[1] - tail[1]
+    if abs(dx) >= abs(dy):
+        return leftright(dx)
+    return updown(dy)
 
 
 
 
 def stopwatch(function, params):
-	a = time.time()
-	function(*params)
-	b = time.time()
-	return b - a
+    a = time.time()
+    function(*params)
+    b = time.time()
+    return b - a
 
 colour_schemes = {}
 colour_schemes['scarlet'] = lambda: (255, random.randint(20,36), 0)
 colour_schemes['violet'] = lambda: (random.randint(100,150), 0, 255)
 colour_schemes['mint'] = lambda: (0, 255, random.randint(176, 220))
 def charcoal():
-	i = random.randint(15,50)
-	return (i, i, i)
+    i = random.randint(15,50)
+    return (i, i, i)
 colour_schemes['charcoal'] = charcoal
 def colour(cs_name):
-	return ''.join('#%02x%02x%02x' % colour_schemes[cs_name]() ).upper()
+    return ''.join('#%02x%02x%02x' % colour_schemes[cs_name]() ).upper()
 
 
 class Context:
-	def __init__(self, data):
-		return
+    def __init__(self, data):
+        return
 
 
 # Called in Start event
 def new_game(request):
-	print "Recieved new game request: \n%s" % str(request)
+    print "Recieved new game request: \n%s" % str(request)
 
-	game_id = request['game_id']
+    game_id = request['game_id']
     board_width = request['width']
     board_height = request['height']
 
@@ -86,14 +86,14 @@ def new_game(request):
         'head_url': head_url,
         'name': 'battlesnake-python',
         'head_type': 'fang'
-	}
+    }
 
 
 # Called in End event
 def end_game(request):
-	print "Recieved end request: \n%s" % str(request)
+    print "Recieved end request: \n%s" % str(request)
 
-	return "200 OK"
+    return "200 OK"
 
 
 

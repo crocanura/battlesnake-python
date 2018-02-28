@@ -5,9 +5,9 @@ import board
 
 class Snake:
 
-	def __init__(self, request):
+    def __init__(self, request):
 
-		
-		
-		own_board = board.Board()
-		own_board.set_grid()
+        
+        
+        own_board = board.Board()
+        own_board.set_grid()
