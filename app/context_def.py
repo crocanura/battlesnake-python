@@ -25,7 +25,7 @@ class Context:
 		self.snakes = {}
 		self.snake_cells = []
 		for snakedata in request['snakes']['data']:
-			snake = snake_def.Snake(board, snakedata)
+			snake = board_def.Snake(board, snakedata)
 			self.snakes[snake.id()] = snake
 
 			for location in snake.body():
