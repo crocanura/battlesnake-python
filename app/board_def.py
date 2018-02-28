@@ -22,17 +22,17 @@ class Snake:
 		self.data = snakedata
 
 	def health(self):
-		return data['health']
+		return self.data['health']
 	def length(self):
-		return data['length']
+		return self.data['length']
 	def id(self):
-		return data['id']
+		return self.data['id']
 	def name(self):
-		return data['name']
+		return self.data['name']
 
 	def bodypart_location(self, index):
 		bp = self.data['body']['data'][index]
-		return (bp['x']. bp['y'])
+		return (bp['x'], bp['y'])
 	def body(self):
 		return [self.bodypart_location(i) for i in range(self.length())]
 
