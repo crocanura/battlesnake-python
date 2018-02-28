@@ -62,36 +62,38 @@ def colour(cs_name):
 
 class Context:
 	def __init__(self, data):
-
-	# Called in Start event
-	def new_game(self, request):
-		print "Recieved new game request: \n%s" % str(request)
-
-		game_id = request['game_id']
-	    board_width = request['width']
-	    board_height = request['height']
-
-	    head_url = '%s://%s/static/head.png' % (
-        bottle.request.urlparts.scheme,
-        bottle.request.urlparts.netloc
-	    )
-
-	    cs_name = random.choice([name for name in colour_schemes])
-
-	    return {
-	        'color': colour(cs_name),
-	        'taunt': "Using colour scheme: %s" % scheme_name,
-	        'head_url': head_url,
-	        'name': 'battlesnake-python',
-	        'head_type': 'fang'
-    	}
+		return
 
 
-    # Called in End event
-    def end_game(self, request):
-    	print "Recieved end request: \n%s" % str(request)
+# Called in Start event
+def new_game(request):
+	print "Recieved new game request: \n%s" % str(request)
 
-    	return "200 OK"
+	game_id = request['game_id']
+    board_width = request['width']
+    board_height = request['height']
+
+    head_url = '%s://%s/static/head.png' % (
+    bottle.request.urlparts.scheme,
+    bottle.request.urlparts.netloc
+    )
+
+    cs_name = random.choice([name for name in colour_schemes])
+
+    return {
+        'color': colour(cs_name),
+        'taunt': "Using colour scheme: %s" % scheme_name,
+        'head_url': head_url,
+        'name': 'battlesnake-python',
+        'head_type': 'fang'
+	}
+
+
+# Called in End event
+def end_game(request):
+	print "Recieved end request: \n%s" % str(request)
+
+	return "200 OK"
 
 
 
