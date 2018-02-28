@@ -17,7 +17,7 @@ class Context:
 
 		for point in request['food']['data']:
 			tup = (point['x'], point['y'])
-			cell = self.board.get_cell(tup)
+			cell = self.board.get_cell(*tup)
 			cell.contains['food'] = True
 			self.food_cells.append(cell)
 
