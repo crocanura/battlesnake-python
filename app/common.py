@@ -82,7 +82,7 @@ def new_game(request):
 
     return {
         'color': colour(cs_name),
-        'taunt': "Using colour scheme: %s" % scheme_name,
+        'taunt': "Using colour scheme: %s" % cs_name,
         'head_url': head_url,
         'name': 'battlesnake-python',
         'head_type': 'fang'
