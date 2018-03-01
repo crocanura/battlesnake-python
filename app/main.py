@@ -70,6 +70,7 @@ def move():
 
 	direction = last_context.harmonic_move()
 	tauntstr = 'wioahdfiuishg'
+	last_context.scout_board()
 
 	return {
 		'move': direction,
