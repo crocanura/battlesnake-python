@@ -58,7 +58,7 @@ class Context:
 					weight_vec = vector_scaled(vec[0], vec[1], weight)
 					snakepart_weighting = vector_sum(*snakepart_weighting+vec)
 
-		return closest_direction(0, 0, *vector_inverted(*snakepart_weighting))
+		return directionary[closest_direction(0, 0, *vector_inverted(*snakepart_weighting))]
 
 
 

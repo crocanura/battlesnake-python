@@ -22,6 +22,10 @@ directionary['left'] = d.left
 directionary['right'] = d.right
 directionary['up'] = d.up
 directionary['down'] = d.down
+directionary[d.left] = 'left'
+directionary[d.right] = 'right'
+directionary[d.up] = 'up'
+directionary[d.down] = 'down'
 
 def leftright(x):
 	if x >= 0:
