@@ -217,6 +217,7 @@ class Context:
 
 	# a real mess of a function
 	def greed_move(self):
+		start_time = time.time()
 
 		move_options = []
 		pid = self.player.snake_id()
@@ -235,8 +236,8 @@ class Context:
 						if other_cell.scouting_numbers[pid] < cur.scouting_numbers[pid]:
 							other_cells.append(other_cell)
 
-				print "cur: %s" % str((cur.x,cur.y))
-				print "other cells: %s" % str([(c.x, c.y) for c in other_cells])
+				# print "cur: %s" % str((cur.x,cur.y))
+				# print "other cells: %s" % str([(c.x, c.y) for c in other_cells])
 				
 
 				if len(other_cells) == 1:
@@ -260,7 +261,8 @@ class Context:
 				dest_cell = option[0]
 				a = self.player.bodypart_location(0)
 				b = (dest_cell.x, dest_cell.y)
-				return closest_direction(*a+b)
+				print "Greed time: %s" % str(time.time() - start_time)
+				return directionary[closest_direction(*a+b)]
 		# print(move_options)
 
 		return 'left'
