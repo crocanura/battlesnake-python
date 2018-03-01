@@ -64,9 +64,10 @@ class Context:
 
 
 	def location_clear_for_scouting(self, asker, x, y):
-		cell = self.board.get_cell(x, y)
-		if cell is None:
+		if not self.board.location_is_valid(x, y):
 			return False
+
+		cell = self.board.get_cell(x, y)
 
 		if cell.scouting_delay != 0:
 			return False
@@ -80,12 +81,13 @@ class Context:
 		# else:
 		# 	return True
 
+	"""returns list of cells""" 
 	def neighbours_clear_for_scouting(self, asker, x, y):
 		neighbours = self.board.neighbours(x, y)
 		vals = []
-		for cell in neighbours:
-			if self.location_clear_for_scouting(asker, cell.x, cell.y):
-				vals.append(cell)
+		for loc in neighbours:
+			if self.location_clear_for_scouting(asker, loc[0], loc[1]):
+				vals.append(self.board.get_cell(loc[0], loc[1]))
 		return vals
 
 	# this algorithm may take a 'long' time
@@ -102,7 +104,7 @@ class Context:
 
 
 			head_cell_location = snake.bodypart_location(0)
-			snake.scouted = [[self.board.get_cell(*head_cell_location)]]
+			snake.scouted = [[head_cell_location]]
 			snake.available_moves = self.neighbours_clear_for_scouting(snake, *head_cell_location)
 
 			# for cell in available_moves:
@@ -140,8 +142,8 @@ class Context:
 
 				# print "tail cell: %s" % str([tail_cell.x, tail_cell.y])
 
-				for cell in snake.scouted[sd-1]: # previous pass's cells
-					next_moves = self.neighbours_clear_for_scouting(snake, cell.x, cell.y)
+				for loc in snake.scouted[sd-1]: # previous pass's cells
+					next_moves = self.neighbours_clear_for_scouting(snake, loc[0], loc[1])
 
 					# print "next moves: %s" % str([(cell.x,cell.y) for cell in next_moves])
 
@@ -150,8 +152,8 @@ class Context:
 							# print 'got here'
 							move.scouting_numbers[snake_id] = sd
 							# if move not in snake.scouted[sd]:
-							snake.scouted[sd].append(move)
-							if 'food' in cell.contains and not snake.scout_tail is None:
+							snake.scouted[sd].append((move.x, move.y))
+							if 'food' in move.contains and not snake.scout_tail is None:
 								tail_cell.scouting_delay += 1
 
 				# print "snake.scouted:\n"

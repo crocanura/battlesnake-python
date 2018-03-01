@@ -66,33 +66,33 @@ class Board:
 			for x in range(width):
 				self.grid[y].append(Cell(x, y))
 
-
-	def get_cell(self, x, y):
-		if self.location_is_valid(x, y):
-			return self.grid[y][x]
-		return None
-
+	
 	def location_is_valid(self, x, y):
 		if 0 <= x and x < self.width:
 			if 0 <= y and y < self.height:
 				return True
 		return False
 
-	def cell_in_dir(self, x, y, direction):
-		new_x = x + direction[0]
-		new_y = y + direction[1]
-		return self.get_cell(new_x, new_y)
+	def get_cell(self, x, y):
+		return self.grid[y][x]
+
+	# def check.(self, x, y):
+	# 	if self.location_is_valid(x, y):
+	# 		return 
+	# 	return None
+
+	# def cell_in_dir(self, x, y, direction):
+	# 	new_x = x + direction[0]
+	# 	new_y = y + direction[1]
+	# 	return self.get_cell(new_x, new_y)
 
 	def neighbours(self, x, y):
 		vals = []
 		for direction in directions:
-			neighbour = self.cell_in_dir(x, y, direction)
-			if not neighbour is None:
+			neighbour = (x + direction[0], y + direction[1])
+			if self.location_is_valid(neighbour[0], neighbour[1]):
 				vals.append(neighbour)
 		return vals
-
-
-
 
 
 def test():
