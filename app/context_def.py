@@ -152,7 +152,7 @@ class Context:
 					# print "next moves: %s" % str([(cell.x,cell.y) for cell in next_moves])
 
 					for move in next_moves:
-						if not snake_id in move.scouting_numbers:
+						if snake_id not in move.scouting_numbers:
 							# print 'got here'
 							move.scouting_numbers[snake_id] = sd
 							# if move not in snake.scouted[sd]:
@@ -170,8 +170,14 @@ class Context:
 					if tail_cell.scouting_delay == 0:
 						# before cleanup, we must pull in all the snakes that can now
 						# reach this cell at this point
-						for snake_id in tail_cell.contains:
-							pass
+						for other_loc in self.board.neighbours(tail_cell.x, tail_cell.y):
+							for other_id in self.board.get_cell(other_loc[0], other_loc[1]).scouting_numbers:
+								if other_id not in tail_cell.scouting_numbers:
+									tail_cell.scouting_numbers[other_id] = sd
+									# self.snaketionary[other_id].scouted
+									# decided not to do this, because
+									# for the moment, it's unneeded
+									# just don't use snake.scouted for anything else
 						# cleanup
 						snake.scout_blocks.remove(snake.scout_tail)
 						if snake.scout_blocks == []:
