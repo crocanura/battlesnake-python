@@ -54,7 +54,7 @@ class Context:
 				vec = vector_difference(*loc+here) # loc+here is the combines tuple
 				d = vector_taxicab(*vec)
 				if d > 0:
-					weight = 1/(vector_length(*vec)*d*4*3)
+					weight = 1/(vector_length(*vec)*d*4*8)
 					weight_vec = vector_scaled(vec[0], vec[1], weight)
 					snakepart_weighting = vector_sum(*snakepart_weighting+vec)
 
