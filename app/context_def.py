@@ -143,9 +143,10 @@ class Context:
 				# print "tail cell: %s" % str([tail_cell.x, tail_cell.y])
 
 				for loc in snake.scouted[sd-1]: # previous pass's cells
-					if self.board.get_cell(*loc).scouting_numbers != []:
+					
+					if len(self.board.get_cell(*loc).scouting_numbers) > 1:
 						continue
-						
+
 					next_moves = self.neighbours_clear_for_scouting(snake, loc[0], loc[1])
 
 					# print "next moves: %s" % str([(cell.x,cell.y) for cell in next_moves])
