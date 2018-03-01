@@ -72,7 +72,7 @@ def move():
 	tauntstr = 'Hello'
 	last_context.scout_board()
 
-	direction = last.context.greed_move()
+	direction = last_context.greed_move()
 
 	return {
 		'move': direction,
