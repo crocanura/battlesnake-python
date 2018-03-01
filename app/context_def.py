@@ -167,6 +167,7 @@ class Context:
 
 			sd += 1
 
+		print "Farthest scouted: %d" % sd				
 		print "Time taken to scout: %s" % str(time.time() - start_time)
 		return True
 
