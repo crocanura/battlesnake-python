@@ -63,20 +63,30 @@ class Context:
 		return directionary[closest_direction(0, 0, *vector_inverted(*snakepart_weighting))]
 
 
-	def location_clear_for_scouting(self, x, y):
+	def location_clear_for_scouting(self, asker, x, y):
 		cell = self.board.get_cell(x, y)
 		if cell is None:
 			return False
 
-		return 0 == cell.scouting_delay
+		if cell.scouting_delay != 0:
+			return False
+
+		if asker.snake_id() in cell.contains:
+			return False
+
+		return True
 		# if cell.scouting_delay == 0:
 		# 	return False
 		# else:
 		# 	return True
 
-	def neighbours_clear_for_scouting(self, x, y):
+	def neighbours_clear_for_scouting(self, asker, x, y):
 		neighbours = self.board.neighbours(x, y)
-		return list(filter(lambda cell: self.location_clear_for_scouting(cell.x, cell.y), neighbours))
+		vals = []
+		for cell in neighbours:
+			if self.location_clear_for_scouting(asker, cell.x, cell.y):
+				vals.append(cell)
+		return vals
 
 	# this algorithm may take a 'long' time
 	def scout_board(self):
@@ -93,7 +103,7 @@ class Context:
 
 			head_cell_location = snake.bodypart_location(0)
 			snake.scouted = [[self.board.get_cell(*head_cell_location)]]
-			snake.available_moves = self.neighbours_clear_for_scouting(*head_cell_location)
+			snake.available_moves = self.neighbours_clear_for_scouting(snake, *head_cell_location)
 
 			# for cell in available_moves:
 			# 	cell.scouting_numbers[snake.snake_id()] = 0
@@ -110,6 +120,7 @@ class Context:
 
 		# main scouting loop
 		sd = 1 # "scouting distance"
+		# N = max([2 * snake.length()])
 		while sd <= self.board.width * self.board.height:
 
 			# print "got here"
@@ -130,7 +141,7 @@ class Context:
 				# print "tail cell: %s" % str([tail_cell.x, tail_cell.y])
 
 				for cell in snake.scouted[sd-1]: # previous pass's cells
-					next_moves = self.neighbours_clear_for_scouting(cell.x, cell.y)
+					next_moves = self.neighbours_clear_for_scouting(snake, cell.x, cell.y)
 
 					# print "next moves: %s" % str([(cell.x,cell.y) for cell in next_moves])
 
@@ -138,8 +149,8 @@ class Context:
 						if not snake_id in move.scouting_numbers:
 							# print 'got here'
 							move.scouting_numbers[snake_id] = sd
-							if move not in snake.scouted[sd]:
-								snake.scouted[sd].append(move)
+							# if move not in snake.scouted[sd]:
+							snake.scouted[sd].append(move)
 							if 'food' in cell.contains and not snake.scout_tail is None:
 								tail_cell.scouting_delay += 1
 
@@ -151,6 +162,11 @@ class Context:
 				if not snake.scout_tail is None:
 					tail_cell.scouting_delay -= 1
 					if tail_cell.scouting_delay == 0:
+						# before cleanup, we must pull in all the snakes that can now
+						# reach this cell at this point
+						for snake_id in tail_cell.contains:
+							pass
+						# cleanup
 						snake.scout_blocks.remove(snake.scout_tail)
 						if snake.scout_blocks == []:
 							snake.scout_tail = None
