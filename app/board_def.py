@@ -7,12 +7,18 @@ class Cell:
 		self.y = y
 
 		self.contains = {}
-		self.scouting_numbers = {}
-		self.scouting_delay = 0
 		# "food": True or False
 		# "snakes": [(lennon, 0), (lennon, 2)]
 		# where lennon is a snake, and 0 and 2 are the indices of it's parts that fall in the cell
-	
+		
+		self.scouting_numbers = {}
+		# scouting numbers represent how soon the snake with given ID
+		# may be able to reach the cell
+
+		self.scouting_delay = 0
+		# this represents how many snake parts must move out of the cell
+		# before it will be open
+
 	def xy(self):
 		return (self.x, self.y)
 
@@ -23,12 +29,16 @@ class Snake:
 		self.data = snakedata
 
 		self.scouted = []
+		self.available_moves = []
+
+		self.scout_tail = self.bodypart_location(-1)
+		self.scout_blocks = self.body()
 
 	def health(self):
 		return self.data['health']
 	def length(self):
 		return self.data['length']
-	def id(self):
+	def snake_id(self):
 		return self.data['id']
 	def name(self):
 		return self.data['name']
@@ -58,21 +68,25 @@ class Board:
 
 
 	def get_cell(self, x, y):
-		return self.grid[y][x]
-
-	def cell_in_dir(self, cell, direction):
-		x = cell.x + direction[0]
-		y = cell.y + direction[1]
-
-		if 0 <= x and x < self.width:
-			if 0 <= y and y < self.height:
-				return self.get_cell(x, y)
+		if self.location_is_valid(x, y):
+			return self.grid[y][x]
 		return None
 
-	def neighbours(self, cell):
+	def location_is_valid(self, x, y):
+		if 0 <= x and x < self.width:
+			if 0 <= y and y < self.height:
+				return True
+		return False
+
+	def cell_in_dir(self, x, y, direction):
+		new_x = x + direction[0]
+		new_y = y + direction[1]
+		return self.get_cell(new_x, new_y)
+
+	def neighbours(self, x, y):
 		vals = []
 		for direction in directions:
-			neighbour = self.cell_in_dir(cell, direction)
+			neighbour = self.cell_in_dir(x, y, direction)
 			if not neighbour is None:
 				vals.append(neighbour)
 		return vals

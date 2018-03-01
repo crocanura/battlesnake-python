@@ -52,7 +52,6 @@ def closest_direction(tailx, taily, headx, heady):
 
 
 
-
 def stopwatch(function, params):
 	a = time.time()
 	function(*params)
@@ -101,6 +100,11 @@ def end_game(request):
 	print "Recieved end request: \n%s" % str(request)
 
 	return "200 OK"
+
+
+def printlines(strings):
+	for line in strings:
+		print line
 
 
 

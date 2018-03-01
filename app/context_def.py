@@ -1,5 +1,6 @@
 from common import *
 import board_def
+import time
 
 class Context:
 	def __init__(self, request):
@@ -21,12 +22,13 @@ class Context:
 			cell.contains['food'] = True
 			self.food_cells.append(cell)
 
-		# snakes indexed by id
-		self.snakes = {}
+		self.snaketionary = {} # by ID
 		self.snake_cells = []
+		self.snake_list = []
 		for snakedata in request['snakes']['data']:
 			snake = board_def.Snake(snakedata)
-			self.snakes[snake.id()] = snake
+			self.snaketionary[snake.snake_id()] = snake
+			self.snake_list.append(snake)
 
 			count = 0 # represents the spot in the body we're at
 			for location in snake.body():
@@ -43,14 +45,14 @@ class Context:
 
 				self.snake_cells.append(location)
 
-		self.player = self.snakes[request['you']['id']]
+		self.player = self.snaketionary[request['you']['id']]
 
 
 	def harmonic_move(self):
 		here = self.player.bodypart_location(0)
 		snakepart_weighting = (0,0)
-		for id in self.snakes:
-			for loc in self.snakes[id].body():
+		for snake_id in self.snaketionary:
+			for loc in self.snaketionary[snake_id].body():
 				vec = vector_difference(*loc+here) # loc+here is the combines tuple
 				d = vector_taxicab(*vec)
 				if d > 0:
@@ -59,6 +61,116 @@ class Context:
 					snakepart_weighting = vector_sum(*snakepart_weighting+vec)
 
 		return directionary[closest_direction(0, 0, *vector_inverted(*snakepart_weighting))]
+
+
+	def location_clear_for_scouting(self, x, y):
+		cell = self.board.get_cell(x, y)
+		if cell is None:
+			return False
+
+		return 0 == cell.scouting_delay
+		# if cell.scouting_delay == 0:
+		# 	return False
+		# else:
+		# 	return True
+
+	def neighbours_clear_for_scouting(self, x, y):
+		neighbours = self.board.neighbours(x, y)
+		return list(filter(lambda cell: self.location_clear_for_scouting(cell.x, cell.y), neighbours))
+
+	# this algorithm may take a 'long' time
+	def scout_board(self):
+		start_time = time.time()
+
+		# startup work
+
+		for snake in self.snake_list:
+
+			if snake.scouted != []:
+				print "Can't scout. Scouting has already been done"
+				return False
+
+
+			head_cell_location = snake.bodypart_location(0)
+			snake.scouted = [[self.board.get_cell(*head_cell_location)]]
+			snake.available_moves = self.neighbours_clear_for_scouting(*head_cell_location)
+
+			# for cell in available_moves:
+			# 	cell.scouting_numbers[snake.snake_id()] = 0
+			# 	snake.scouted[0].append(cell)
+			# 	if 'food' in cell.contains and not snake.scout_tail is None:
+			# 		self.board.get_cell(snake.scout_tail).scouting_delay += 1
+
+			# self.board.get_cell(snake.scout_tail).scouting_delay -= 1
+
+			# print "snake.scouted:\n%s\n" % str(snake.scouted)
+			# print "snake.available_moves:\n%s\n" % str(snake.available_moves)
+
+
+
+		# main scouting loop
+		sd = 1 # "scouting distance"
+		while sd <= self.board.width * self.board.height:
+
+			# print "got here"
+
+			num_snakes_that_found_new_cells = 0
+
+			# each snake does a scouting pass
+			for snake in self.snake_list:
+
+				# print "%s scouting pass %d" % (snake.name(), sd)
+
+				snake_id = snake.snake_id()
+				snake.scouted.append([])
+
+				if not snake.scout_tail is None:
+					tail_cell = self.board.get_cell(*snake.scout_tail)
+
+				# print "tail cell: %s" % str([tail_cell.x, tail_cell.y])
+
+				for cell in snake.scouted[sd-1]: # previous pass's cells
+					next_moves = self.neighbours_clear_for_scouting(cell.x, cell.y)
+
+					# print "next moves: %s" % str([(cell.x,cell.y) for cell in next_moves])
+
+					for move in next_moves:
+						if not snake_id in move.scouting_numbers:
+							# print 'got here'
+							move.scouting_numbers[snake_id] = sd
+							if move not in snake.scouted[sd]:
+								snake.scouted[sd].append(move)
+							if 'food' in cell.contains and not snake.scout_tail is None:
+								tail_cell.scouting_delay += 1
+
+				# print "snake.scouted:\n"
+				# for line in snake.scouted:
+				# 	print line
+				# print "size of scouted[sd]%d" % len(snake.scouted[sd])
+
+				if not snake.scout_tail is None:
+					tail_cell.scouting_delay -= 1
+					if tail_cell.scouting_delay == 0:
+						snake.scout_blocks.remove(snake.scout_tail)
+						if snake.scout_blocks == []:
+							snake.scout_tail = None
+						else:
+							snake.scout_tail = snake.scout_blocks[-1]
+
+				# print ""
+
+				if snake.scouted[sd] != []:
+					num_snakes_that_found_new_cells += 1
+
+			if num_snakes_that_found_new_cells == 0:
+				break
+
+			sd += 1
+
+		print "Time taken to scout: %s" % str(time.time() - start_time)
+		return True
+
+
 
 
 
@@ -71,13 +183,13 @@ class Context:
 				if cell.contains == {}:
 					tmp += "[] "
 				elif 'snakes' in cell.contains:
-					l = [snake for snake in cell.contains['snakes']]
+					l = [i[0] for i in cell.contains['snakes']]
 					if len(l) > 1:
 						tmp += "## "
-					elif l[0][0].bodypart_location(0) == (cell.x, cell.y):
-						tmp += "%1dH " % list(self.snakes.keys()).index(l[0][0].id())
+					elif l[0].bodypart_location(0) == (cell.x, cell.y):
+						tmp += "%1dH " % self.snake_list.index(l[0])
 					else:
-						tmp += "%1dB " % list(self.snakes.keys()).index(l[0][0].id())
+						tmp += "%1dB " % self.snake_list.index(l[0])
 				elif 'food' in cell.contains:
 					tmp += "++ "
 				else:
@@ -86,7 +198,16 @@ class Context:
 
 		return strings
 
-	def print_board(self):
-		for line in self.board_printout():
-			print line
+	def scouting_printout(self, snake):
+
+		strings = []
+		for row in self.board.grid:
+			tmp = ""
+			for cell in row:
+				if snake.snake_id() in cell.scouting_numbers:
+					tmp += "%2d " % cell.scouting_numbers[snake.snake_id()]
+				else:
+					tmp += "[] "
+			strings.append(tmp)
+		return strings
 
