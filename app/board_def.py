@@ -34,6 +34,8 @@ class Snake:
 		self.scout_tail = self.bodypart_location(-1)
 		self.scout_blocks = self.body()
 
+		self.pickup = [] # other cells you gain access to
+
 	def health(self):
 		return self.data['health']
 	def length(self):

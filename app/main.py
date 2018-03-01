@@ -68,9 +68,11 @@ def move():
 	b = time.time()
 	print "Initial setup took %s" % str(b-a) 
 
-	direction = last_context.harmonic_move()
-	tauntstr = 'wioahdfiuishg'
+	# direction = last_context.harmonic_move()
+	tauntstr = 'Hello'
 	last_context.scout_board()
+
+	direction = last.context.greed_move()
 
 	return {
 		'move': direction,

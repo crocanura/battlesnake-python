@@ -137,6 +137,9 @@ class Context:
 				snake_id = snake.snake_id()
 				snake.scouted.append([])
 
+				for loc in snake.pickup:
+					snake.scouted[sd].append(loc)
+
 				if not snake.scout_tail is None:
 					tail_cell = self.board.get_cell(*snake.scout_tail)
 
@@ -170,14 +173,17 @@ class Context:
 					if tail_cell.scouting_delay == 0:
 						# before cleanup, we must pull in all the snakes that can now
 						# reach this cell at this point
-						for other_loc in self.board.neighbours(tail_cell.x, tail_cell.y):
-							for other_id in self.board.get_cell(other_loc[0], other_loc[1]).scouting_numbers:
-								if other_id not in tail_cell.scouting_numbers:
-									tail_cell.scouting_numbers[other_id] = sd
-									# self.snaketionary[other_id].scouted
-									# decided not to do this, because
-									# for the moment, it's unneeded
-									# just don't use snake.scouted for anything else
+						# for other_loc in self.board.neighbours(tail_cell.x, tail_cell.y):
+						# 	other_cell = self.board.get_cell(other_loc[0], other_loc[1])
+						# 	if len(other_cell.scouting_numbers) <= 1:
+						# 		for other_id in other_cell.scouting_numbers:
+						# 			other_snake = self.snaketionary[other_id]
+						# 			tail_cell.scouting_numbers[other_id] = sd
+						# 			if len(other_snake.scouted) < len(snake.scouted):
+						# 				other_snake.pickup.append((tail_cell.x, tail_cell.y))
+						# 			else:
+						# 				other_snake.scouted[sd].append((tail_cell.x, tail_cell.y))
+									
 						# cleanup
 						snake.scout_blocks.remove(snake.scout_tail)
 						if snake.scout_blocks == []:
@@ -195,9 +201,72 @@ class Context:
 
 			sd += 1
 
+
+		# trim snake.scouted
+		last_row = None
+		for snake in self.snake_list:
+			for i in range(1, len(snake.scouted)):
+				if snake.scouted[-i] != []:
+					last_row = -i
+					break
+			snake.scouted = snake.scouted[0:last_row+1]
+
 		print "Farthest scouted: %d" % sd				
 		print "Time taken to scout: %s" % str(time.time() - start_time)
 		return True
+
+	# a real mess of a function
+	def greed_move(self):
+
+		move_options = []
+		pid = self.player.snake_id()
+		for loc in self.player.scouted[-1]:
+			end_cell = self.board.get_cell(*loc)
+			food = 0
+			cur = end_cell
+			while True:
+				if 'food' in cur.contains:
+					food += 1
+				if cur.scouting_numbers[pid] == 1:
+					break # while
+				other_cells = []
+				for other_cell in [self.board.get_cell(*n) for n in self.board.neighbours(cur.x, cur.y)]:
+					if pid in other_cell.scouting_numbers:
+						if other_cell.scouting_numbers[pid] < cur.scouting_numbers[pid]:
+							other_cells.append(other_cell)
+
+				print "cur: %s" % str((cur.x,cur.y))
+				print "other cells: %s" % str([(c.x, c.y) for c in other_cells])
+				
+
+				if len(other_cells) == 1:
+					cur = other_cells[0]
+					continue # while
+				max_sn = max([c.scouting_numbers[pid] for c in other_cells])
+				other_cells = list(filter(lambda c: c.scouting_numbers[pid] == max_sn, other_cells))
+				if len(other_cells) == 1:
+					cur = other_cells[0]
+					continue # while
+				for c in other_cells:
+					if 'food' in c.contains:
+						cur = c
+						break # for
+				cur = other_cells[0]
+			move_options.append((cur, food))
+
+		most_food = max([tup[1] for tup in move_options])
+		for option in move_options:
+			if option[1] == most_food:
+				dest_cell = option[0]
+				a = self.player.bodypart_location(0)
+				b = (dest_cell.x, dest_cell.y)
+				return closest_direction(*a+b)
+		# print(move_options)
+
+		return 'left'
+
+
+
 
 
 
