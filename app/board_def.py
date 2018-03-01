@@ -49,6 +49,12 @@ class Snake:
 	def body(self):
 		return [self.bodypart_location(i) for i in range(self.length())]
 
+	def already_scouted(self, x, y):
+		for row in self.scouted:
+			if (x, y) in row:
+				return True
+		return False
+
 		
 
 
