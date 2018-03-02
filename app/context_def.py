@@ -271,7 +271,9 @@ class Context:
 	# 	return 'left'
 
 
-
+	def actual_greed(self):
+		total_scoutlihood = 0
+		print self.player.scouted[-1]
 
 
 

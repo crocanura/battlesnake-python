@@ -21,6 +21,8 @@ class Cell:
 
 		self.scouting_precursors = {}
 
+		self.scoutlihood = {}
+
 	def xy(self):
 		return (self.x, self.y)
 
