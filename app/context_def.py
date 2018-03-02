@@ -280,7 +280,7 @@ class Context:
 		food_favour = cell.scout_favour[asker]['food']
 		distance_favour = cell.scout_favour[asker]['distance']
 
-		return (1+food_favour*self.starving(me))*distance_favour
+		return (1+food_favour*self.starving(asker))*distance_favour
 
 	def actual_greed(self):
 		# subtract 1 because of head cell
@@ -319,7 +319,7 @@ class Context:
 						if me not in pre.scout_favour:
 							pre.scout_favour[me] = {}
 							pre.scout_favour[me]['distance'] = 1.0 + cell.scout_favour[me]['distance']/div
-							pre.scout_favour[me]['food'] = 0.0 + cell.scout_favour[me]['distance']*(1.0-self.starving(self.player))
+							pre.scout_favour[me]['food'] = 0.0 + cell.scout_favour[me]['distance']*(1.0-self.starving(me))
 
 		end_time = time.time()
 		print "Greed time: %s" % str(end_time-start_time)
