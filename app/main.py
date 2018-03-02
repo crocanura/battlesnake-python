@@ -72,7 +72,7 @@ def move():
 	tauntstr = 'https://www.youtube.com/watch?v=oYnZkmJ1Ymo'
 	last_context.scout_board()
 
-	direction = last_context.greed_move()
+	direction = last_context.actual_greed()
 
 	return {
 		'move': direction,
