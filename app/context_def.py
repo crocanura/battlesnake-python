@@ -161,7 +161,7 @@ class Context:
 							if other in food_eaters:
 								len2 += 1
 
-							if len2 > len1: # by a longer snake: stop
+							if len2 >= len1: # by a longer snake: stop
 								omit_loc = True
 								continue
 
@@ -319,7 +319,7 @@ class Context:
 						if me not in pre.scout_favour:
 							pre.scout_favour[me] = {}
 							pre.scout_favour[me]['distance'] = 1.0 + cell.scout_favour[me]['distance']/div
-							pre.scout_favour[me]['food'] = 0.0 + cell.scout_favour[me]['distance']*(1.0-self.starving(me))
+							pre.scout_favour[me]['food'] = 0.0 + cell.scout_favour[me]['distance'])
 
 		end_time = time.time()
 		print "Greed time: %s" % str(end_time-start_time)
