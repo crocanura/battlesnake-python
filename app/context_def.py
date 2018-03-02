@@ -279,9 +279,15 @@ class Context:
 	def greed_priority(self, asker, cell, max_df, max_ff):
 		f = cell.scout_favour[asker]['food']/max_ff
 		d = cell.scout_favour[asker]['distance']/max_df
+
+		g = 0
+		max_snake_length = max(map(lambda s: s.length(), filter(lambda s: not s is self.player,  self.snake_list)))
+		l = self.player.length()
+		g = 1 + max_snake_length*1.4/l
+
 		s = self.starving(asker)
 
-		return f*s+d*(1.0-s)
+		return f*s*g+d*(1.0-s)
 
 	def actual_greed(self):
 		# subtract 1 because of head cell
@@ -327,8 +333,8 @@ class Context:
 
 		# now choose best option
 		options = [option for option in me.scouted[1]]
-		total_food_favour = sum(map(lambda cell: cell.scout_favour[me]['food'], options))
-		total_distance_favour = sum(map(lambda cell: cell.scout_favour[me]['distance'], options))
+		total_food_favour = sum(cell.scout_favour[me]['food'] for cell in options)
+		total_distance_favour = sum(cell.scout_favour[me]['distance'] for cell in options)
 
 		if len(options) == 0:
 			return 'left'
