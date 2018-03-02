@@ -325,7 +325,7 @@ class Context:
 		print "Greed time: %s" % str(end_time-start_time)
 
 		# now choose best option
-		options = [option for option in me.scouted[1]]
+		options = me.scouted[1]
 		total_food_favour = sum(cell.scout_favour[me]['food'] for cell in options)
 		total_distance_favour = sum(cell.scout_favour[me]['distance'] for cell in options)
 
