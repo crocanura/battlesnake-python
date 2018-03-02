@@ -276,7 +276,7 @@ class Context:
 		total_scoutlihood = 0
 		print self.player.scouted[-1]
 
-		return directionary[closest_direction(player.bodypart_location(0)[0], player.bodypart_location(0)[1], self.food_cells[0].x,self.food_cells[0].x)]
+		return directionary[closest_direction(self.player.bodypart_location(0)[0], self.player.bodypart_location(0)[1], self.food_cells[0].x,self.food_cells[0].x)]
 
 
 
