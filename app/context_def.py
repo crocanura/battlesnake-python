@@ -216,7 +216,7 @@ class Context:
 					if len(cell.scouting_numbers) > 1: # cell has been scouted by another
 						for other in cell.scouting_numbers:
 
-							print cell.scouting_numbers
+							# print cell.scouting_numbers
 
 							len1 = scouter.length()
 							len2 = other.length()
