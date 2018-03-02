@@ -327,9 +327,9 @@ class Context:
 
 		# now choose best option
 		options = [option for option in me.scouted[1]]
-		total_food_favour = sum(lambda cell: cell.scout_favour[me]['food'])
-		total_distance_favour = sum(lambda cell: cell.scout_favour[me]['distance'])
-		
+		total_food_favour = sum(map(lambda cell: cell.scout_favour[me]['food'], options))
+		total_distance_favour = sum(map(lambda cell: cell.scout_favour[me]['distance'], options))
+
 		if len(options) == 0:
 			return 'left'
 
