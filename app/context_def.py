@@ -166,6 +166,7 @@ class Context:
 								continue
 
 						if omit_loc:
+							scouter.scouted[sd-1].remove(prev_cell)
 							continue # for scouter; level 4
 
 
