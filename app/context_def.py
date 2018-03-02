@@ -214,7 +214,7 @@ class Context:
 				if snake.scouted[-i] != []:
 					last_row = -i
 					break
-		if last_row not is None:
+		if not last_row is None:
 			snake.scouted = snake.scouted[0:last_row+1]
 
 		print "Farthest scouted: %d" % sd				
