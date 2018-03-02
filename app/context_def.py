@@ -91,6 +91,7 @@ class Context:
 
 			head_cell = self.board.get_cell(*snake.bodypart_location(0))
 			snake.scouted = [[head_cell]]
+			head_cell.scouting_numbers[snake] = 0
 			# snake.available_moves = self.neighbours_clear_for_scouting(snake, *head_cell_location)
 
 
@@ -146,28 +147,28 @@ class Context:
 
 					# print "found previous cell at %s" % str([prev_cell.x, prev_cell.y])
 
-					if len(prev_cell.scouting_numbers) > 1: # cell has been scouted by another
-						omit_loc = False # by assumption
-						for other in prev_cell.scouting_numbers:
-							# if other is scouter: # by this snake: stop
+					# if len(prev_cell.scouting_numbers) > 1: # cell has been scouted by another
+					# 	omit_loc = False # by assumption
+					# 	for other in prev_cell.scouting_numbers:
+					# 		# if other is scouter: # by this snake: stop
 
-							# 	print "cell already scouted:"
+					# 		# 	print "cell already scouted:"
 
-							# 	omit_loc = True
-							# 	continue
+					# 		# 	omit_loc = True
+					# 		# 	continue
 
-							len1 = scouter.length()
-							len2 = other.length()
-							if other in food_eaters:
-								len2 += 1
+					# 		len1 = scouter.length()
+					# 		len2 = other.length()
+					# 		if other in food_eaters:
+					# 			len2 += 1
 
-							if len2 >= len1: # by a longer snake: stop
-								omit_loc = True
-								continue
+					# 		if len2 >= len1: # by a longer snake: stop
+					# 			omit_loc = True
+					# 			continue
 
-						if omit_loc:
-							scouter.scouted[sd-1].remove(prev_cell)
-							continue # for scouter; level 4
+					# 	if omit_loc:
+					# 		scouter.scouted[sd-1].remove(prev_cell)
+					# 		continue # for scouter; level 4
 
 
 					next_moves = self.neighbours_clear_for_scouting(scouter, prev_cell.x, prev_cell.y)
@@ -205,6 +206,30 @@ class Context:
 
 			sd += 1
 		sd -= 1
+
+
+		# remove unsafe squares
+		for scouter in self.snake_list:
+			for row in snake.scouted:
+				marked_for_removal = []
+				for cell in row:
+					if len(cell.scouting_numbers) > 1: # cell has been scouted by another
+						for other in cell.scouting_numbers:
+
+							print cell.scouting_numbers
+
+							len1 = scouter.length()
+							len2 = other.length()
+							if other in food_eaters:
+								len2 += 1
+
+							if len2 >= len1: # by a mean snake: stop
+								marked_for_removal.append(cell)
+
+				for cell in marked_for_removal:
+					while cell in row:
+						row.remove(cell)
+
 
 
 		# trim snake.scouted
