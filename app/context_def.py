@@ -108,7 +108,8 @@ class Context:
 			if food_eaters != []:
 				last_turn = True
 				for eater in food_eaters:
-					self.board.get_cell(*eater.scout_tail).scouting_delay += 1
+					if not eater.scout_tail is None:
+						self.board.get_cell(*eater.scout_tail).scouting_delay += 1
 			
 
 			# ADVANCE SCOUT_TAILS
