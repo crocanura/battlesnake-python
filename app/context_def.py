@@ -276,11 +276,12 @@ class Context:
 	def starving(self, asker):
 		return 1 - asker.health()/100
 
-	def greed_priority(self, asker, cell):
-		food_favour = cell.scout_favour[asker]['food']
-		distance_favour = cell.scout_favour[asker]['distance']
+	def greed_priority(self, asker, cell, max_df, max_ff):
+		f = cell.scout_favour[asker]['food']/max_ff
+		d = cell.scout_favour[asker]['distance']/max_df
+		s = self.starving(asker)
 
-		return (1+food_favour*self.starving(asker))*distance_favour
+		return f*s+d*(1.0-s)
 
 	def actual_greed(self):
 		# subtract 1 because of head cell
@@ -319,7 +320,7 @@ class Context:
 						if me not in pre.scout_favour:
 							pre.scout_favour[me] = {}
 							pre.scout_favour[me]['distance'] = 1.0 + cell.scout_favour[me]['distance']/div
-							pre.scout_favour[me]['food'] = 0.0 + cell.scout_favour[me]['distance']
+							pre.scout_favour[me]['food'] = 0.0 + cell.scout_favour[me]['distance']/(12*div)
 
 		end_time = time.time()
 		print "Greed time: %s" % str(end_time-start_time)
@@ -332,8 +333,11 @@ class Context:
 		elif len(options) == 1:
 			choice = options[0]
 
+		total_food_favour = sum(lambda cell: cell.scout_favour[me]['food'])
+		total_distance_favour = sum(lambda cell: cell.scout_favour[me]['distance'])
+
 		else:
-			choice = sorted(options, key= lambda cell: self.greed_priority(me, cell))[-1]
+			choice = sorted(options, key= lambda cell: self.greed_priority(me, cell, total_distance_favour, total_food_favour))[-1]
 
 		here = me.bodypart_location(0)
 		there = (choice.x, choice.y)
