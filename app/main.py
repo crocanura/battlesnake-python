@@ -65,14 +65,17 @@ def move():
 	global last_context
 	a = time.time()
 	last_context = context_def.Context(data)
-	b = time.time()
-	print "Initial setup took %s" % str(b-a) 
+	# b = time.time()
+	# print "Initial setup took %s" % str(b-a) 
 
 	# direction = last_context.harmonic_move()
 	tauntstr = 'https://www.youtube.com/watch?v=oYnZkmJ1Ymo'
 	last_context.scout_board()
 
 	direction = last_context.actual_greed()
+
+	b = time.time()
+	print "Total time at server: %s" % str(b-a) 
 
 	return {
 		'move': direction,

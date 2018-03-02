@@ -7,6 +7,9 @@ import math
 import pickle
 
 
+# FOOD_FACTOR
+
+
 
 class DirectionClass:
 	def __init__(self):

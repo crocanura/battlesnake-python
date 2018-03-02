@@ -18,7 +18,7 @@ def b():
 def c():
 	for snake in con.snake_list:
 		print "\n %s" % snake.name()
-		printlines(con.scouting_printout(snake))
+		printlines(con.sc_d_printout(snake))
 	print ""
 	printlines(con.board_printout())
 	print ""

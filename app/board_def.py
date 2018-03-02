@@ -21,10 +21,16 @@ class Cell:
 
 		self.scouting_precursors = {}
 
-		self.scoutlihood = {}
+		self.scout_favour = {}
 
 	def xy(self):
 		return (self.x, self.y)
+
+	def __str__(self):
+		return "Cell: (%d, %d)" % (self.x, self.y)
+
+	def __repr__(self):
+		return str(self)
 
 
 # encapsulates a snake
@@ -60,6 +66,12 @@ class Snake:
 			if (x, y) in row:
 				return True
 		return False
+
+	def __str__(self):
+		return "Snake: %s" % self.name()
+
+	def __repr__(self):
+		return str(self)
 
 		
 

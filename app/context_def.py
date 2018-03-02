@@ -89,8 +89,8 @@ class Context:
 				return False
 
 
-			head_cell_location = snake.bodypart_location(0)
-			snake.scouted = [[head_cell_location]]
+			head_cell = self.board.get_cell(*snake.bodypart_location(0))
+			snake.scouted = [[head_cell]]
 			# snake.available_moves = self.neighbours_clear_for_scouting(snake, *head_cell_location)
 
 
@@ -141,8 +141,8 @@ class Context:
 
 				# print "#%d scouting pass for %s" % (sd, scouter.name())
 
-				for loc in scouter.scouted[sd-1]: # previous pass's cells
-					prev_cell = self.board.get_cell(*loc)
+				for prev_cell in scouter.scouted[sd-1]: # previous pass's cells
+					# prev_cell = self.board.get_cell(*loc)
 
 					# print "found previous cell at %s" % str([prev_cell.x, prev_cell.y])
 
@@ -169,7 +169,7 @@ class Context:
 							continue # for scouter; level 4
 
 
-					next_moves = self.neighbours_clear_for_scouting(scouter, loc[0], loc[1])
+					next_moves = self.neighbours_clear_for_scouting(scouter, prev_cell.x, prev_cell.y)
 
 					for move in next_moves:
 
@@ -177,7 +177,7 @@ class Context:
 						move.scouting_numbers[scouter] = sd
 
 
-						scouter.scouted[sd].append((move.x, move.y))
+						scouter.scouted[sd].append(move)
 
 						move.scouting_precursors[scouter] = [] 
 						for nearby in self.board.neighbours(move.x, move.y):
@@ -271,12 +271,69 @@ class Context:
 
 	# 	return 'left'
 
+	def greed_priority(self, asker, cell):
+		food_favour = cell.scout_favour[asker]['food']
+		distance_favour = cell.scout_favour[asker]['distance']
+		return (1+food_favour)*distance_favour
 
 	def actual_greed(self):
-		total_scoutlihood = 0
-		print self.player.scouted[-1]
+		# subtract 1 because of head cell
+		# total_scouted = sum([len(line) for line in self.player.scouted]) - 1
+		# total_food = len(self.food_cells)
+		# if total_food > 0:
+		# 	food_bit = 1.0/total_food
+		start_time = time.time()
 
-		return directionary[closest_direction(self.player.bodypart_location(0)[0], self.player.bodypart_location(0)[1], self.food_cells[0].x,self.food_cells[0].y)]
+		me = self.player
+
+		for row in me.scouted[::-1][:-1]:
+			# if row[0].scouting_numbers[me] == 0:
+			# 	break
+
+			for cell in row:
+
+				# print "%s precursors:" % str(cell)
+				# print [cell.scouting_precursors]
+
+				if me not in cell.scout_favour:
+					cell.scout_favour[me] = {}
+					cell.scout_favour[me]['distance'] = 1.0
+					cell.scout_favour[me]['food'] = 0.0
+
+				if 'food' in cell.contains:
+					cell.scout_favour[me]['food'] += 1.0
+
+				if me not in cell.scouting_precursors:
+					continue
+
+				pres = cell.scouting_precursors[me]
+				div = float(len(pres))
+				if div > 0:
+					for pre in pres:
+						if me not in pre.scout_favour:
+							pre.scout_favour[me] = {}
+							pre.scout_favour[me]['distance'] = 1.0 + cell.scout_favour[me]['distance']/div
+							pre.scout_favour[me]['food'] = 0.0 + cell.scout_favour[me]['distance']/2.0
+
+		end_time = time.time()
+		print "Greed time: %s" % str(end_time-start_time)
+
+		# now choose best option
+		options = [option for option in me.scouted[1]]
+		if len(options) == 0:
+			return 'left'
+
+		elif len(options) == 1:
+			choice = options[0]
+
+		else:
+			choice = sorted(options, key= lambda cell: self.greed_priority(me, cell))[0]
+
+		here = me.bodypart_location(0)
+		there = (choice.x, choice.y)
+		return directionary[closest_direction(*here+there)]
+
+		return directionary[closest_direction(me.bodypart_location(0)[0], me.bodypart_location(0)[1], self.food_cells[0].x,self.food_cells[0].y)]
 
 
 
@@ -288,33 +345,60 @@ class Context:
 			tmp = ""
 			for cell in row:
 				if cell.contains == {}:
-					tmp += "[] "
+					tmp += "[    ]"
 				elif 'snakes' in cell.contains:
 					l = [i[0] for i in cell.contains['snakes']]
 					if len(l) > 1:
-						tmp += "## "
+						tmp += "[ XX ]"
 					elif l[0].bodypart_location(0) == (cell.x, cell.y):
-						tmp += "%1dH " % self.snake_list.index(l[0])
+						tmp += "[%2d H]" % self.snake_list.index(l[0])
 					else:
-						tmp += "%1dB " % self.snake_list.index(l[0])
+						tmp += "[%2d B]" % self.snake_list.index(l[0])
 				elif 'food' in cell.contains:
-					tmp += "++ "
+					tmp += "[ ++ ]"
 				else:
-					tmp += "?? "
+					tmp += "[ ?? ]"
 			strings.append(tmp)
 
 		return strings
 
-	def scouting_printout(self, snake):
+	def sc_d_printout(self, snake):
 
 		strings = []
 		for row in self.board.grid:
 			tmp = ""
 			for cell in row:
 				if snake in cell.scouting_numbers:
-					tmp += "%2d " % cell.scouting_numbers[snake]
+					tmp += "[%4d]" % cell.scouting_numbers[snake]
 				else:
-					tmp += "[] "
+					tmp += "[    ]"
+			strings.append(tmp)
+		return strings
+
+
+	def sc_ff_printout(self, snake):
+
+		strings = []
+		for row in self.board.grid:
+			tmp = ""
+			for cell in row:
+				if snake in cell.scout_favour:
+					tmp += "[%.2f]" % (cell.scout_favour[snake]['food'] * 10)
+				else:
+					tmp += "[    ]"
+			strings.append(tmp)
+		return strings
+
+	def sc_df_printout(self, snake):
+
+		strings = []
+		for row in self.board.grid:
+			tmp = ""
+			for cell in row:
+				if snake in cell.scout_favour:
+					tmp += "[%.2f]" % cell.scout_favour[snake]['distance']
+				else:
+					tmp += "[    ] "
 			strings.append(tmp)
 		return strings
 
