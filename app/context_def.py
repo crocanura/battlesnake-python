@@ -327,14 +327,14 @@ class Context:
 
 		# now choose best option
 		options = [option for option in me.scouted[1]]
+		total_food_favour = sum(lambda cell: cell.scout_favour[me]['food'])
+		total_distance_favour = sum(lambda cell: cell.scout_favour[me]['distance'])
+		
 		if len(options) == 0:
 			return 'left'
 
 		elif len(options) == 1:
 			choice = options[0]
-
-		total_food_favour = sum(lambda cell: cell.scout_favour[me]['food'])
-		total_distance_favour = sum(lambda cell: cell.scout_favour[me]['distance'])
 
 		else:
 			choice = sorted(options, key= lambda cell: self.greed_priority(me, cell, total_distance_favour, total_food_favour))[-1]
