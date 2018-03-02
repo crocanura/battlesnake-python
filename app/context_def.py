@@ -143,7 +143,6 @@ class Context:
 				# print "#%d scouting pass for %s" % (sd, scouter.name())
 
 				for prev_cell in scouter.scouted[sd-1]: # previous pass's cells
-					# prev_cell = self.board.get_cell(*loc)
 
 					# print "found previous cell at %s" % str([prev_cell.x, prev_cell.y])
 
@@ -210,16 +209,21 @@ class Context:
 
 		# remove unsafe squares
 		for scouter in self.snake_list:
-			for row in snake.scouted:
+			for row in scouter.scouted:
 				marked_for_removal = []
 				for cell in row:
 					if len(cell.scouting_numbers) > 1: # cell has been scouted by another
 						for other in cell.scouting_numbers:
 
 							if other is scouter:
+								if scouter is self.player:
+									print '%s was me' % other
 								continue
 
-							if cell.scouting_numbers[other] < cell.scouting_numbers[scouter]:
+							if cell.scouting_numbers[other] > cell.scouting_numbers[scouter]:
+								
+								if scouter is self.player:
+									print '%s cant get to %s before %s' % (other, cell, scouter)
 								continue
 
 							# print cell.scouting_numbers
@@ -228,8 +232,11 @@ class Context:
 							len2 = other.length()
 							if other in food_eaters:
 								len2 += 1
+							if scouter in food_eaters:
+								len1 += 1
 
 							if len2 >= len1: # by a mean snake: stop
+								print '%s is scared of %s getting to %s' % (scouter, other, cell)
 								marked_for_removal.append(cell)
 
 				for cell in marked_for_removal:
@@ -239,14 +246,14 @@ class Context:
 
 
 		# trim snake.scouted
-		last_row = None
 		for snake in self.snake_list:
-			for i in range(1, len(snake.scouted)):
+			last_row = None
+			for i in range(1, len(snake.scouted)+1):
 				if snake.scouted[-i] != []:
 					last_row = -i
 					break
-		if not last_row is None:
-			snake.scouted = snake.scouted[0:last_row+1]
+			if (not last_row is None) and last_row != -1:
+				snake.scouted = snake.scouted[0:last_row+1]
 
 		print "Farthest scouted: %d" % sd				
 		print "Time taken to scout: %s" % str(time.time() - start_time)
