@@ -277,9 +277,9 @@ class Context:
 		food_favour = cell.scout_favour[asker]['food']
 		distance_favour = cell.scout_favour[asker]['distance']
 
-		starving = 100 - asker.health()
+		starving = 1 - asker.health()/100
 
-		return (1+food_favour)*distance_favour
+		return (1+food_favour*starving)*distance_favour
 
 	def actual_greed(self):
 		# subtract 1 because of head cell
