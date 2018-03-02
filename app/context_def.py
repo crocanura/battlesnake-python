@@ -328,7 +328,7 @@ class Context:
 			choice = options[0]
 
 		else:
-			choice = sorted(options, key= lambda cell: self.greed_priority(me, cell))[0]
+			choice = sorted(options, key= lambda cell: self.greed_priority(me, cell))[-1]
 
 		here = me.bodypart_location(0)
 		there = (choice.x, choice.y)
