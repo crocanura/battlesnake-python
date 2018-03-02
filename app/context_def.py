@@ -273,13 +273,14 @@ class Context:
 
 	# 	return 'left'
 
+	def starving(self, asker):
+		return 1 - asker.health()/100
+
 	def greed_priority(self, asker, cell):
 		food_favour = cell.scout_favour[asker]['food']
 		distance_favour = cell.scout_favour[asker]['distance']
 
-		starving = 1 - asker.health()/100
-
-		return (1+food_favour*starving)*distance_favour
+		return (1+food_favour*self.starving(me))*distance_favour
 
 	def actual_greed(self):
 		# subtract 1 because of head cell
@@ -318,7 +319,7 @@ class Context:
 						if me not in pre.scout_favour:
 							pre.scout_favour[me] = {}
 							pre.scout_favour[me]['distance'] = 1.0 + cell.scout_favour[me]['distance']/div
-							pre.scout_favour[me]['food'] = 0.0 + cell.scout_favour[me]['distance']*0.9
+							pre.scout_favour[me]['food'] = 0.0 + cell.scout_favour[me]['distance']*(1.0-self.starving(me))
 
 		end_time = time.time()
 		print "Greed time: %s" % str(end_time-start_time)
