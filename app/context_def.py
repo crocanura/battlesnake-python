@@ -265,8 +265,13 @@ class Context:
 		return 1 - asker.health()/100
 
 	def greed_priority(self, asker, cell, max_df, max_ff):
-		f = cell.scout_favour[asker]['food']/max_ff
-		d = cell.scout_favour[asker]['distance']/max_df
+		f = 0
+		d = 0
+
+		if max_ff != 0:
+			f = cell.scout_favour[asker]['food']/max_ff
+		if max_df != 0:
+			d = cell.scout_favour[asker]['distance']/max_df
 
 		g = 0
 		max_snake_length = max(map(lambda s: s.length(), filter(lambda s: not s is self.player,  self.snake_list)))
