@@ -146,28 +146,28 @@ class Context:
 
 					# print "found previous cell at %s" % str([prev_cell.x, prev_cell.y])
 
-					# if len(prev_cell.scouting_numbers) > 1: # cell has been scouted by another
-					# 	omit_loc = False # by assumption
-					# 	for other in prev_cell.scouting_numbers:
-					# 		# if other is scouter: # by this snake: stop
+					if len(prev_cell.scouting_numbers) > 1: # cell has been scouted by another
+						omit_loc = False # by assumption
+						for other in prev_cell.scouting_numbers:
+							# if other is scouter: # by this snake: stop
 
-					# 		# 	print "cell already scouted:"
+							# 	print "cell already scouted:"
 
-					# 		# 	omit_loc = True
-					# 		# 	continue
+							# 	omit_loc = True
+							# 	continue
 
-					# 		len1 = scouter.length()
-					# 		len2 = other.length()
-					# 		if other in food_eaters:
-					# 			len2 += 1
+							len1 = scouter.length()
+							len2 = other.length()
+							if other in food_eaters:
+								len2 += 1
 
-					# 		if len2 >= len1: # by a longer snake: stop
-					# 			omit_loc = True
-					# 			continue
+							if len2 >= len1: # by a longer snake: stop
+								omit_loc = True
+								continue
 
-					# 	if omit_loc:
-					# 		scouter.scouted[sd-1].remove(prev_cell)
-					# 		continue # for scouter; level 4
+						if omit_loc:
+							scouter.scouted[sd-1].remove(prev_cell)
+							continue # for scouter; level 4
 
 
 					next_moves = self.neighbours_clear_for_scouting(scouter, prev_cell.x, prev_cell.y)
@@ -216,14 +216,14 @@ class Context:
 						for other in cell.scouting_numbers:
 
 							if other is scouter:
-								if scouter is self.player:
-									print '%s was me' % other
+								# if scouter is self.player:
+								# 	print '%s was me' % other
 								continue
 
 							if cell.scouting_numbers[other] > cell.scouting_numbers[scouter]:
 								
-								if scouter is self.player:
-									print '%s cant get to %s before %s' % (other, cell, scouter)
+								# if scouter is self.player:
+									# print '%s cant get to %s before %s' % (other, cell, scouter)
 								continue
 
 							# print cell.scouting_numbers
@@ -236,7 +236,7 @@ class Context:
 								len1 += 1
 
 							if len2 >= len1: # by a mean snake: stop
-								print '%s is scared of %s getting to %s' % (scouter, other, cell)
+								# print '%s is scared of %s getting to %s' % (scouter, other, cell)
 								marked_for_removal.append(cell)
 
 				for cell in marked_for_removal:
