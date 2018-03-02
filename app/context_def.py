@@ -208,27 +208,33 @@ class Context:
 		sd -= 1
 
 
-		# remove unsafe squares
-		for scouter in self.snake_list:
-			for row in snake.scouted:
-				marked_for_removal = []
-				for cell in row:
-					if len(cell.scouting_numbers) > 1: # cell has been scouted by another
-						for other in cell.scouting_numbers:
+		# # remove unsafe squares
+		# for scouter in self.snake_list:
+		# 	for row in snake.scouted:
+		# 		marked_for_removal = []
+		# 		for cell in row:
+		# 			if len(cell.scouting_numbers) > 1: # cell has been scouted by another
+		# 				for other in cell.scouting_numbers:
 
-							# print cell.scouting_numbers
+		# 					if other is scouter:
+		# 						continue
 
-							len1 = scouter.length()
-							len2 = other.length()
-							if other in food_eaters:
-								len2 += 1
+		# 					if cell.scouting_numbers[other] < cell.scouting_numbers[scouter]:
+		# 						continue
 
-							if len2 >= len1: # by a mean snake: stop
-								marked_for_removal.append(cell)
+		# 					# print cell.scouting_numbers
 
-				for cell in marked_for_removal:
-					while cell in row:
-						row.remove(cell)
+		# 					len1 = scouter.length()
+		# 					len2 = other.length()
+		# 					if other in food_eaters:
+		# 						len2 += 1
+
+		# 					if len2 >= len1: # by a mean snake: stop
+		# 						marked_for_removal.append(cell)
+
+		# 		for cell in marked_for_removal:
+		# 			while cell in row:
+		# 				row.remove(cell)
 
 
 
@@ -439,7 +445,7 @@ class Context:
 				if snake in cell.scout_favour:
 					tmp += "[%.2f]" % cell.scout_favour[snake]['distance']
 				else:
-					tmp += "[    ] "
+					tmp += "[    ]"
 			strings.append(tmp)
 		return strings
 
