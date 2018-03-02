@@ -161,7 +161,7 @@ class Context:
 							if other in food_eaters:
 								len2 += 1
 
-							if len2 >= len1: # by a longer snake: stop
+							if len2 > len1: # by a longer snake: stop
 								omit_loc = True
 								continue
 
