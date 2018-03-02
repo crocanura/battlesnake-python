@@ -340,8 +340,11 @@ class Context:
 				# print [cell.scouting_precursors]
 
 				if me not in cell.scout_favour:
+					far_bonus = 1.0
+					if row == me.scouted[-1]:
+						far_bonus = 1.0
 					cell.scout_favour[me] = {}
-					cell.scout_favour[me]['distance'] = 1.0
+					cell.scout_favour[me]['distance'] = far_bonus
 					cell.scout_favour[me]['food'] = 0.0
 
 				if 'food' in cell.contains:
@@ -356,8 +359,10 @@ class Context:
 					for pre in pres:
 						if me not in pre.scout_favour:
 							pre.scout_favour[me] = {}
-							pre.scout_favour[me]['distance'] = 1.0 + cell.scout_favour[me]['distance']/div
-							pre.scout_favour[me]['food'] = 0.0 + cell.scout_favour[me]['distance']/(12*div)
+							pre.scout_favour[me]['distance'] = 1.0
+							pre.scout_favour[me]['food'] = 0
+						pre.scout_favour[me]['distance'] += cell.scout_favour[me]['distance']/div
+						pre.scout_favour[me]['food'] += cell.scout_favour[me]['distance']/(12*div)
 
 		end_time = time.time()
 		print "Greed time: %s" % str(end_time-start_time)
