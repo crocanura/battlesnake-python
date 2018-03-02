@@ -19,6 +19,8 @@ class Cell:
 		# this represents how many snake parts must move out of the cell
 		# before it will be open
 
+		self.scouting_precursors = {}
+
 	def xy(self):
 		return (self.x, self.y)
 
