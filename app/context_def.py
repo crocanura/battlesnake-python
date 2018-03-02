@@ -214,6 +214,7 @@ class Context:
 				if snake.scouted[-i] != []:
 					last_row = -i
 					break
+		if last_row not is None:
 			snake.scouted = snake.scouted[0:last_row+1]
 
 		print "Farthest scouted: %d" % sd				
@@ -275,6 +276,9 @@ class Context:
 	def greed_priority(self, asker, cell):
 		food_favour = cell.scout_favour[asker]['food']
 		distance_favour = cell.scout_favour[asker]['distance']
+
+		starving = 100 - asker.health()
+
 		return (1+food_favour)*distance_favour
 
 	def actual_greed(self):
