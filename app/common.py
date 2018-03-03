@@ -65,9 +65,9 @@ colour_schemes = {}
 # colour_schemes['scarlet'] = lambda: (255, random.randint(20,36), 0)
 # colour_schemes['violet'] = lambda: (random.randint(100,150), 0, 255)
 # colour_schemes['mint'] = lambda: (0, 255, random.randint(176, 220))
-colour_schemes['scarlet'] = (255, 36, 0)
-colour_schemes['violet'] = (170, 0, 255)
-colour_schemes['mint'] = (0, 255, 180)
+colour_schemes['scarlet'] = lambda: (255, 36, 0)
+colour_schemes['violet'] = lambda: (170, 0, 255)
+colour_schemes['mint'] = lambda: (0, 255, 180)
 def charcoal():
 	# i = random.randint(15,50)
 	i = 30
