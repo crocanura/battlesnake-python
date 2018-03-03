@@ -327,10 +327,10 @@ class Context:
 							food_value = 10.0/(nominal_health)
 							food_found = True
 						cell.scout_favour[me]['food'] += food_value
-						print"Ff now %s" % cell.scout_favour[me]['food']
+						# print"Ff now %s" % cell.scout_favour[me]['food']
 					else:
-						cell.scout_favour[me]['food'] -= 1.0
-						print"Ff now %s" % cell.scout_favour[me]['food']
+						cell.scout_favour[me]['food'] /= 2.0
+						# print"Ff now %s" % cell.scout_favour[me]['food']
 
 				if me not in cell.scouting_precursors:
 					continue
