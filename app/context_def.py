@@ -284,7 +284,7 @@ class Context:
 
 		# return f*s*g+(1.0-s)*d**2
 
-		return f*food_modifier+d
+		return f*food_modifier+d*d*(1-s)
 
 	def actual_greed(self, asker):
 		# subtract 1 because of head cell
