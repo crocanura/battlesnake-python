@@ -1,0 +1,31 @@
+import tf
+ex4.txt
+tf.a()
+tf.b()
+tf.c()
+for snake in tf.con.snake_list: tf.con.actual_greed(snake)
+
+
+from board_def import cell_node
+tf.ff()
+tf.df()
+n1 = cell_node(tf.con.board.get_cell(0,-1))
+n2 = cell_node(tf.con.board.get_cell(0,-2))
+n3 = cell_node(tf.con.board.get_cell(0,-3))
+n1.add_child(n2)
+n2.add_child(n3)
+
+tf.con.dfs(tf.con.player)
+
+
+n1.calculate_distances()
+n1.calculate_sums(tf.con.snake_list)
+
+
+l = tf.con.player.dfs_endpoints
+list(filter(lambda node: node.sums['favour'][tf.con.player]['distance'] > 0, l))
+
+d_vals = [p.distance for p in l]
+key = lambda node: -(node.distance)
+s_d_vals = sorted(l, key=key)
+

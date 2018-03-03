@@ -80,6 +80,10 @@ def move():
 		if not snake is con.player:
 			con.actual_greed(snake)
 
+	con.dfs(con.player)
+
+	direction = con.best_direction()
+
 	b = time.time()
 	print "Total time at server: %s" % str(b-a) 
 

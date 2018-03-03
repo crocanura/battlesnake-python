@@ -1,6 +1,10 @@
 from common import *
 import board_def
+from board_def import cell_node
 import time
+from collections import deque
+
+
 
 class Context:
 	def __init__(self, request):
@@ -66,10 +70,6 @@ class Context:
 			return False
 
 		return True
-		# if cell.scouting_delay == 0:
-		# 	return False
-		# else:
-		# 	return True
 
 	"""returns list of cells""" 
 	def neighbours_clear_for_scouting(self, asker, x, y):
@@ -121,6 +121,7 @@ class Context:
 			if can_advance_tails:
 				for scouter in self.snake_list:
 					if scouter.scout_tail is None:
+						scouter.tail_cell_by_turn.append(tail_cell)
 						continue
 
 					tail_cell = self.board.get_cell(*scouter.scout_tail)
@@ -136,6 +137,8 @@ class Context:
 							scouter.scout_tail = None
 						else:
 							scouter.scout_tail = scouter.bodypart_location(num - 1)
+
+					scouter.tail_cell_by_turn.append(tail_cell)
 
 
 
@@ -386,8 +389,61 @@ class Context:
 
 
 
-	def dfs(self, asker):
+	def dfs_safe(self, turn, asker, cell):
 		pass
+
+
+	def dfs(self, asker):
+
+		start_time = time.time()
+		
+		stack = deque()
+
+		asker.dfs_root = cell_node(self.board.get_cell(*asker.bodypart_location(0)))
+		
+		stack.append(asker.dfs_root)
+
+		while stack:
+			cur = stack.pop()
+			cur_loc = (cur.cell.x, cur.cell.y)
+			neighbours = [self.board.get_cell(*loc) for loc in self.board.neighbours(*cur_loc)]
+			neighbours = filter(lambda cell: cell.node is None, neighbours)
+
+			for n in neighbours:
+				new_node = cell_node(n)
+				cur.add_child(new_node)
+				stack.append(new_node)
+
+			if neighbours == []:
+				asker.dfs_endpoints.append(cur)
+
+		asker.dfs_root.calculate_distances()
+		asker.dfs_root.calculate_sums(self.snake_list)
+
+		end_time = time.time()
+
+		print "DFS time: %s" % str(end_time - start_time)
+
+	
+	def best_endpoint(self):
+
+		endpoints = self.tfs_endpoints
+
+		if endpoints = []:
+			return None
+
+		d_key = lambda node: node.sums['favour']
+
+		endpoints = sorted(endpoints, key=d_key)
+
+		return endpoints[-1]
+
+	def best_direction(self):
+
+		vec_a = con.player.bodypart_location(0)
+		c = self.best_endpoint().cell
+		
+		return closest_direction(vec_a[0], vec_a[1], c.x, c.y)
 
 
 	def board_printout(self):

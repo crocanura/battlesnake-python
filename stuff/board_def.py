@@ -23,6 +23,9 @@ class Cell:
 
 		self.scout_favour = {}
 
+		self.node = None
+
+
 	def xy(self):
 		return (self.x, self.y)
 
@@ -44,8 +47,12 @@ class Snake:
 		self.scout_tail = self.bodypart_location(-1)
 		self.scout_blocks = self.body()
 		self.scouted_distance = len(self.scouted) - 1
+		self.tail_cell_by_turn = []
 
 		self.pickup = [] # other cells you gain access to
+
+		self.dfs_root = None
+		self.dfs_endpoints = []
 
 	def health(self):
 		return self.data['health']
@@ -121,22 +128,88 @@ class Board:
 
 
 
-
-class dfs_cell_node:
+class cell_node:
 
 	def __init__(self, cell):
 		self.cell = cell
+		cell.node = self
 
 		self.parent = None
 		self.children = []
-
 		self.distance = 0
 
-	def visited(self, snake):
-		# return (snake in self.cell.
-		return False
+		self.sums = None
 
-	# def flood_distances(self)
+	def add_child(self, new_child):
+		if new_child not in self.children:
+			self.children.append(new_child)
+			new_child.parent = self
+
+
+	def originator(self):
+		cur = self
+		while cur.distance > 1:
+			cur = cur.parent
+		return cur
+
+	def calculate_distances(self):
+		if self.parent == None:
+			self.distance = 0
+		else:
+			self.distance = self.parent.distance + 1
+
+		for child in self.children:
+			child.calculate_distances()
+
+	# always run calculate_distances on the root first
+	def calculate_sums(self, snake_list):
+		
+		# print "Calculating sums for node for %s" % self.cell
+
+		self.sums = {}
+		self.sums['favour'] = {}
+		for snake in snake_list:
+			if snake in self.cell.scout_favour:
+				self.sums['favour'][snake] = self.cell.scout_favour[snake]
+			else:
+				self.sums['favour'][snake] = {"food": 0, "distance": 0}
+
+		self.sums['foodlist'] = []
+		if 'food' in self.cell.contains:
+			self.sums['foodlist'].append(self.distance)
+
+		
+		if not self.parent is None:
+			for snake in self.parent.sums['favour']:
+				self.sums['favour'][snake]['food'] += self.parent.sums['favour'][snake]['food']
+				self.sums['favour'][snake]['distance'] += self.parent.sums['favour'][snake]['distance']
+
+			self.sums['foodlist'].extend(self.parent.sums['foodlist'])
+		else:
+			print "%s has no parent!" % self
+
+
+		for child in self.children:
+			child.calculate_sums(snake_list)
+
+
+
+
+# class dfs_cell_node:
+
+# 	def __init__(self, cell):
+# 		self.cell = cell
+
+# 		self.parent = None
+# 		self.children = []
+
+# 		self.distance = 0
+
+# 	def visited(self, snake):
+# 		# return (snake in self.cell.
+# 		return False
+
+# 	# def flood_distances(self)
 
 
 
