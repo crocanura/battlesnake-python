@@ -82,6 +82,7 @@ def move():
 
 	con.dfs(con.player)
 
+	# replaces previous
 	direction = con.best_direction()
 
 	b = time.time()

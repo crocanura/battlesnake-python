@@ -427,9 +427,9 @@ class Context:
 	
 	def best_endpoint(self):
 
-		endpoints = self.tfs_endpoints
+		endpoints = self.player.dfs_endpoints
 
-		if endpoints = []:
+		if endpoints == []:
 			return None
 
 		d_key = lambda node: node.sums['favour']
@@ -440,10 +440,10 @@ class Context:
 
 	def best_direction(self):
 
-		vec_a = con.player.bodypart_location(0)
+		vec_a = self.player.bodypart_location(0)
 		c = self.best_endpoint().cell
 		
-		return closest_direction(vec_a[0], vec_a[1], c.x, c.y)
+		return directionary[closest_direction(vec_a[0], vec_a[1], c.x, c.y)]
 
 
 	def board_printout(self):

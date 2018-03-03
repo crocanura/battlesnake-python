@@ -26,6 +26,7 @@ l = tf.con.player.dfs_endpoints
 list(filter(lambda node: node.sums['favour'][tf.con.player]['distance'] > 0, l))
 
 d_vals = [p.distance for p in l]
-key = lambda node: -(node.distance)
-s_d_vals = sorted(l, key=key)
+
+key = lambda node: -(node.sums['favour'][tf.con.player]['distance'])
+ll = sorted(l, key=key)
 
