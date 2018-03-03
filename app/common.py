@@ -92,7 +92,7 @@ def new_game(request):
 	)
 
 	cs_name = random.choice([name for name in colour_schemes])
-	cs_name = 
+	# cs_name = 
 
 	return {
 		'color': colour(cs_name),
