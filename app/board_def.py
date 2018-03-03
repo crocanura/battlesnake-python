@@ -119,6 +119,28 @@ class Board:
 		return vals
 
 
+
+
+class dfs_cell_node:
+
+	def __init__(self, cell):
+		self.cell = cell
+
+		self.parent = None
+		self.children = []
+
+		self.distance = 0
+
+	def visited(self, snake):
+		# return (snake in self.cell.
+		return False
+
+	# def flood_distances(self)
+
+
+
+
+
 def test():
 	b = Board()
 	b.set_grid(4, 7)

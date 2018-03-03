@@ -282,7 +282,7 @@ class Context:
 
 		return f*s*g+(1.0-s)*d**2
 
-	def actual_greed(self):
+	def actual_greed(self, asker):
 		# subtract 1 because of head cell
 		# total_scouted = sum([len(line) for line in self.player.scouted]) - 1
 		# total_food = len(self.food_cells)
@@ -290,19 +290,22 @@ class Context:
 		# 	food_bit = 1.0/total_food
 		start_time = time.time()
 
-		me = self.player
+		me = asker
+		health = asker.health()
+		length = asker.length()
 
+		distance = 0
 		for row in me.scouted[::-1][:-1]:
 			# if row[0].scouting_numbers[me] == 0:
 			# 	break
-
 			for cell in row:
 
 				# print "%s precursors:" % str(cell)
 				# print [cell.scouting_precursors]
+				distance = cell.scouting_numbers[me]
 
 				if me not in cell.scout_favour:
-					far_bonus = 1.0
+					far_bonus = 0.0
 					if row == me.scouted[-1]:
 						far_bonus = 1.0
 					cell.scout_favour[me] = {}
@@ -310,7 +313,11 @@ class Context:
 					cell.scout_favour[me]['food'] = 0.0
 
 				if 'food' in cell.contains:
-					cell.scout_favour[me]['food'] += 1.0
+					nominal_health = max(0, health - distance)
+					food_value = 0.0
+					if nominal_health > 0:
+						food_value = 10.0/(nominal_health)
+					cell.scout_favour[me]['food'] += food_value
 
 				if me not in cell.scouting_precursors:
 					continue
@@ -324,7 +331,7 @@ class Context:
 							pre.scout_favour[me]['distance'] = 0.0
 							pre.scout_favour[me]['food'] = 0.0
 						pre.scout_favour[me]['distance'] += cell.scout_favour[me]['distance']/div
-						pre.scout_favour[me]['food'] += cell.scout_favour[me]['food']/(12*div)
+						pre.scout_favour[me]['food'] += cell.scout_favour[me]['food']/(div)
 
 		end_time = time.time()
 		print "Greed time: %s" % str(end_time-start_time)
