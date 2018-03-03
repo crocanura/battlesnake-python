@@ -39,7 +39,10 @@ class Cell:
 	def originator(self, snake):
 		cur = self
 		while cur.scouting_numbers[snake] > 1:
-			cur = cur.scouting_precursors[0]
+			if cur.scouting_precursors[snake] == []:
+				return None
+
+			cur = cur.scouting_precursors[snake][0]
 
 		return cur
 
@@ -165,7 +168,7 @@ class cell_node:
 	def scouting_intersect(self, snake):
 
 		cur = self
-		while snake not in cur.scouting_numbers:
+		while snake not in cur.cell.scouting_numbers:
 			if cur.parent is None:
 				return None
 			cur = cur.parent

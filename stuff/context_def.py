@@ -440,6 +440,8 @@ class Context:
 
 		vec_a = self.player.bodypart_location(0)
 		c = self.best_endpoint().scouting_intersect(self.player).cell.originator(self.player)
+
+		
 		
 		return directionary[closest_direction(vec_a[0], vec_a[1], c.x, c.y)]
 
