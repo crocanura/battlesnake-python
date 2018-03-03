@@ -435,6 +435,9 @@ class Context:
 		endpoints = list(filter(food_good, endpoints))
 		endpoints = sorted(endpoints, key=d_key)
 
+		if endpoints == []:
+			return None
+			
 		return endpoints[-1]
 
 
