@@ -72,7 +72,7 @@ def move():
 	tauntstr = 'https://www.youtube.com/watch?v=oYnZkmJ1Ymo'
 	last_context.scout_board()
 
-	direction = last_context.actual_greed()
+	direction = last_context.actual_greed(last_context.player)
 
 	b = time.time()
 	print "Total time at server: %s" % str(b-a) 
