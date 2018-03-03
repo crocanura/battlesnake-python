@@ -368,7 +368,7 @@ class Context:
 		# if len(options) == 0:
 		# 	return 'left'
 
-		elif len(options) == 1:
+		if len(options) == 1:
 			choice = options[0]
 
 		else:
