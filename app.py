@@ -2,8 +2,8 @@ import bottle
 import os
 import math
 
-from app.common import *
-import app.context_def as context_def
+from stuff.common import *
+import stuff.context_def as context_def
 
 import pickle
 import random
