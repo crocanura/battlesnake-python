@@ -297,11 +297,14 @@ class Context:
 		length = asker.length()
 
 		distance = 0
+
 		food_good = True
 		food_found = False
+
 		for row in me.scouted[::-1][:-1]:
 			# if row[0].scouting_numbers[me] == 0:
 			# 	break
+
 			if food_found:
 				food_good = False
 
@@ -320,7 +323,8 @@ class Context:
 					cell.scout_favour[me]['food'] = 0.0
 
 				if 'food' in cell.contains:
-					if food_good:
+					# if food_good:
+					if True:
 						nominal_health = max(0, health - distance)
 						food_value = 0.0
 						if nominal_health > 0:
