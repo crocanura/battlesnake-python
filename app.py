@@ -74,7 +74,7 @@ def move():
 
 	con.scout_board()
 
-	direction = con.actual_greed(last_context.player)
+	direction1 = con.actual_greed(last_context.player)
 
 	for snake in con.snake_list:
 		if not snake is con.player:
@@ -83,7 +83,7 @@ def move():
 	con.dfs(con.player)
 
 	# replaces previous
-	direction = con.best_direction()
+	direction2 = con.best_direction()
 
 	b = time.time()
 	print "Total time at server: %s" % str(b-a) 

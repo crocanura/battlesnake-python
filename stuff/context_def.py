@@ -429,8 +429,10 @@ class Context:
 		if endpoints == []:
 			return None
 
+		food_good = lambda node: (node.sums['foodlist'] != []) and self.player.health() - min(node.sums['foodlist']) > 1
 		d_key = lambda node: node.sums['favour']
 
+		endpoints = list(filter(food_good, endpoints))
 		endpoints = sorted(endpoints, key=d_key)
 
 		return endpoints[-1]
@@ -441,7 +443,7 @@ class Context:
 		vec_a = self.player.bodypart_location(0)
 		c = self.best_endpoint().scouting_intersect(self.player).cell.originator(self.player)
 
-		
+
 		
 		return directionary[closest_direction(vec_a[0], vec_a[1], c.x, c.y)]
 
