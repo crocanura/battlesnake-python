@@ -273,14 +273,16 @@ class Context:
 		if max_df != 0:
 			d = cell.scout_favour[asker]['distance']/max_df
 
-		g = 0
-		max_snake_length = max(map(lambda s: s.length(), filter(lambda s: not s is self.player,  self.snake_list)))
-		l = self.player.length()
-		g = 1 + max_snake_length*1.4/l
+		# g = 0
+		# max_snake_length = max(map(lambda s: s.length(), filter(lambda s: not s is self.player,  self.snake_list)))
+		# l = self.player.length()
+		# g = 1 + max_snake_length*1.4/l
 
-		s = self.starving(asker)
+		# s = self.starving(asker)
 
-		return f*s*g+(1.0-s)*d**2
+		# return f*s*g+(1.0-s)*d**2
+
+		return f+d
 
 	def actual_greed(self, asker):
 		# subtract 1 because of head cell
@@ -295,9 +297,14 @@ class Context:
 		length = asker.length()
 
 		distance = 0
+		food_good = True
+		food_found = False
 		for row in me.scouted[::-1][:-1]:
 			# if row[0].scouting_numbers[me] == 0:
 			# 	break
+			if food_found:
+				food_good = False
+
 			for cell in row:
 
 				# print "%s precursors:" % str(cell)
@@ -313,11 +320,17 @@ class Context:
 					cell.scout_favour[me]['food'] = 0.0
 
 				if 'food' in cell.contains:
-					nominal_health = max(0, health - distance)
-					food_value = 0.0
-					if nominal_health > 0:
-						food_value = 10.0/(nominal_health)
-					cell.scout_favour[me]['food'] += food_value
+					if food_good:
+						nominal_health = max(0, health - distance)
+						food_value = 0.0
+						if nominal_health > 0:
+							food_value = 10.0/(nominal_health)
+							food_found = True
+						cell.scout_favour[me]['food'] += food_value
+						print"Ff now %s" % cell.scout_favour[me]['food']
+					else:
+						cell.scout_favour[me]['food'] -= 1.0
+						print"Ff now %s" % cell.scout_favour[me]['food']
 
 				if me not in cell.scouting_precursors:
 					continue
@@ -331,7 +344,7 @@ class Context:
 							pre.scout_favour[me]['distance'] = 0.0
 							pre.scout_favour[me]['food'] = 0.0
 						pre.scout_favour[me]['distance'] += cell.scout_favour[me]['distance']/div
-						pre.scout_favour[me]['food'] += cell.scout_favour[me]['food']/(div)
+						pre.scout_favour[me]['food'] += cell.scout_favour[me]['food']/div
 
 		end_time = time.time()
 		print "Greed time: %s" % str(end_time-start_time)
@@ -404,7 +417,7 @@ class Context:
 			tmp = ""
 			for cell in row:
 				if snake in cell.scout_favour:
-					tmp += "[%.2f]" % (cell.scout_favour[snake]['food'] * 10)
+					tmp += "[%.2f]" % (cell.scout_favour[snake]['food'])
 				else:
 					tmp += "[    ]"
 			strings.append(tmp)
