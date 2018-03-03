@@ -437,15 +437,26 @@ class Context:
 
 		if endpoints == []:
 			return None
-			
+
 		return endpoints[-1]
 
 
 	def best_direction(self):
 
 		vec_a = self.player.bodypart_location(0)
-		c = self.best_endpoint().scouting_intersect(self.player).cell.originator(self.player)
+		c = self.best_endpoint()
+		if c is None:
+			return None:
 
+		c = c.scouting_intersect(self.player)
+
+		if c is None:
+			return None
+
+		c = c.cell.originator(self.player)
+
+		if c is None:
+			return None
 
 		
 		return directionary[closest_direction(vec_a[0], vec_a[1], c.x, c.y)]
