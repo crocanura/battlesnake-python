@@ -386,6 +386,9 @@ class Context:
 
 
 
+	def dfs(self, asker):
+		pass
+
 
 	def board_printout(self):
 

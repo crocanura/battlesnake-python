@@ -69,7 +69,7 @@ def move():
 	# print "Initial setup took %s" % str(b-a) 
 
 	# direction = last_context.harmonic_move()
-	tauntstr = 'https://www.youtube.com/watch?v=oYnZkmJ1Ymo'
+	
 
 	con.scout_board()
 
