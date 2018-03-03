@@ -106,11 +106,11 @@ class Context:
 
 			num_snakes_that_found_new_cells = 0
 
-			if food_eaters != []:
-				last_turn = True
-				for eater in food_eaters:
-					if not eater.scout_tail is None:
-						self.board.get_cell(*eater.scout_tail).scouting_delay += 1
+			# if food_eaters != []:
+			# 	last_turn = True
+			for eater in food_eaters:
+				if not eater.scout_tail is None:
+					self.board.get_cell(*eater.scout_tail).scouting_delay += 1
 			
 
 			# ADVANCE SCOUT_TAILS
@@ -262,7 +262,7 @@ class Context:
 	
 
 	def starving(self, asker):
-		return 1 - asker.health()/100
+		return 1-((asker.health())/100.0)
 
 	def greed_priority(self, asker, cell, max_df, max_ff):
 		f = 0
