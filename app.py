@@ -88,6 +88,11 @@ def move():
 	b = time.time()
 	print "Total time at server: %s" % str(b-a) 
 
+	if direction2 is None:
+		direction = direction1
+	else:
+		direction = direction1
+
 	return {
 		'move': direction,
 		'taunt': tauntstr
