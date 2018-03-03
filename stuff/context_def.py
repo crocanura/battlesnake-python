@@ -432,7 +432,11 @@ class Context:
 		food_good = lambda node: (node.sums['foodlist'] != []) and self.player.health() - min(node.sums['foodlist']) > 1
 		d_key = lambda node: node.sums['favour']
 
-		endpoints = list(filter(food_good, endpoints))
+		endpoints_fg = list(filter(food_good, endpoints))
+
+		if endpoints_fg != []:
+			endpoints = endpoints_fg
+			
 		endpoints = sorted(endpoints, key=d_key)
 
 		if endpoints == []:
