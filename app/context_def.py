@@ -102,7 +102,7 @@ class Context:
 		last_turn = False
 		can_advance_tails = True
 		food_eaters = []
-		while sd <= self.board.width * self.board.height:
+		while sd <= 30:
 
 			num_snakes_that_found_new_cells = 0
 
