@@ -65,12 +65,12 @@ colour_schemes = {}
 # colour_schemes['scarlet'] = lambda: (255, random.randint(20,36), 0)
 # colour_schemes['violet'] = lambda: (random.randint(100,150), 0, 255)
 # colour_schemes['mint'] = lambda: (0, 255, random.randint(176, 220))
-colour_schemes['scarlet'] = lambda: (255, random.randint(30,40), 0)
-colour_schemes['violet'] = lambda: (random.randint(120,130), 0, 255)
-colour_schemes['mint'] = lambda: (0, 255, random.randint(17, 180))
+colour_schemes['scarlet'] = (255, 36, 0)
+colour_schemes['violet'] = (170, 0, 255)
+colour_schemes['mint'] = (0, 255, 180)
 def charcoal():
 	# i = random.randint(15,50)
-	i = random.randint(30,40)
+	i = 30
 	return (i, i, i)
 colour_schemes['charcoal'] = charcoal
 def colour(cs_name):
@@ -91,13 +91,13 @@ def new_game(request):
 	bottle.request.urlparts.netloc
 	)
 
-	cs_name = random.choice([name for name in colour_schemes])
-	# cs_name = 
+	# cs_name = random.choice([name for name in colour_schemes])
+	cs_name = 'scarlet'
 
 	return {
 		'color': colour(cs_name),
-		'taunt': "Colour: %s" % cs_name,
-		# 'taunt': "Hello there"
+		# 'taunt': "Colour: %s" % cs_name,
+		'taunt': "Hello there"
 		'head_url': head_url,
 		'name': 'battlesnake-python',
 		'head_type': 'fang'
