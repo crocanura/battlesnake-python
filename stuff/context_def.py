@@ -26,6 +26,10 @@ class Context:
 		self.snake_list = []
 		for snakedata in request['snakes']['data']:
 			snake = board_def.Snake(snakedata)
+
+			if snake.health <= 0:
+				continue #ignore dead snakes
+
 			self.snake_list.append(snake)
 
 			count = 0 # represents the spot in the body we're at
