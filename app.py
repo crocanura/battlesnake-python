@@ -91,7 +91,7 @@ def move():
 	if direction2 is None:
 		direction = direction1
 	else:
-		direction = direction1
+		direction = direction2
 
 	return {
 		'move': direction,
