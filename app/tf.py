@@ -23,3 +23,22 @@ def c():
 	printlines(con.board_printout())
 	print ""
 	return None
+
+def greed(snake = None):
+	if snake is None:
+		con.actual_greed(con.player)
+	else:
+		con.actual_greed(snake)
+
+def df(snake = None):
+	if snake is None:
+		printlines(con.sc_df_printout(con.player))
+	else:
+		printlines(con.sc_df_printout(snake))
+
+
+def ff(snake = None):
+	if snake is None:
+		printlines(con.sc_ff_printout(con.player))
+	else:
+		printlines(con.sc_ff_printout(snake))

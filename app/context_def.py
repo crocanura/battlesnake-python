@@ -111,7 +111,7 @@ class Context:
 			for eater in food_eaters:
 				if not eater.scout_tail is None:
 					self.board.get_cell(*eater.scout_tail).scouting_delay += 1
-			
+			food_eaters = []
 
 			# ADVANCE SCOUT_TAILS
 			if can_advance_tails:
@@ -198,7 +198,8 @@ class Context:
 					num_snakes_that_found_new_cells += 1
 
 			if last_turn:
-				can_advance_tails = False
+				# can_advance_tails = False
+				pass
 
 			if num_snakes_that_found_new_cells == 0:
 				break
