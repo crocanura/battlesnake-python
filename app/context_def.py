@@ -357,12 +357,16 @@ class Context:
 		print "Greed time: %s" % str(end_time-start_time)
 
 		# now choose best option
-		options = me.scouted[1]
+		if len(me.scouted) > 1:
+			options = me.scouted[1]
+		else:
+			return 'left'
+		
 		total_food_favour = sum(cell.scout_favour[me]['food'] for cell in options)
 		total_distance_favour = sum(cell.scout_favour[me]['distance'] for cell in options)
 
-		if len(options) == 0:
-			return 'left'
+		# if len(options) == 0:
+		# 	return 'left'
 
 		elif len(options) == 1:
 			choice = options[0]
