@@ -389,10 +389,6 @@ class Context:
 
 
 
-	def dfs_safe(self, turn, asker, cell):
-		pass
-
-
 	def dfs(self, asker):
 
 		start_time = time.time()
@@ -424,7 +420,8 @@ class Context:
 
 		print "DFS time: %s" % str(end_time - start_time)
 
-	
+
+
 	def best_endpoint(self):
 
 		endpoints = self.player.dfs_endpoints
@@ -438,10 +435,11 @@ class Context:
 
 		return endpoints[-1]
 
+
 	def best_direction(self):
 
 		vec_a = self.player.bodypart_location(0)
-		c = self.best_endpoint().cell
+		c = self.best_endpoint().scouting_intersect(self.player).cell.originator(self.player)
 		
 		return directionary[closest_direction(vec_a[0], vec_a[1], c.x, c.y)]
 

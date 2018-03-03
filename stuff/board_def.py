@@ -36,6 +36,14 @@ class Cell:
 		return str(self)
 
 
+	def originator(self, snake):
+		cur = self
+		while cur.scouting_numbers[snake] > 1:
+			cur = cur.scouting_precursors[0]
+
+		return cur
+
+
 # encapsulates a snake
 class Snake:
 	def __init__(self, snakedata):
@@ -128,6 +136,7 @@ class Board:
 
 
 
+
 class cell_node:
 
 	def __init__(self, cell):
@@ -146,11 +155,25 @@ class cell_node:
 			new_child.parent = self
 
 
-	def originator(self):
+	# def originator(self):
+	# 	cur = self
+	# 	while cur.distance > 1:
+	# 		cur = cur.parent
+	# 	return cur
+
+
+	def scouting_intersect(self, snake):
+
 		cur = self
-		while cur.distance > 1:
+		while snake not in cur.scouting_numbers:
+			if cur.parent is None:
+				return None
 			cur = cur.parent
+
 		return cur
+
+
+
 
 	def calculate_distances(self):
 		if self.parent == None:
