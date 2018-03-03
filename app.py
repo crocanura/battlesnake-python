@@ -70,6 +70,7 @@ def move():
 
 	# direction = last_context.harmonic_move()
 	
+	tauntstr = "I am a snake"
 
 	con.scout_board()
 

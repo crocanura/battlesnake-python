@@ -43,7 +43,7 @@ class Snake:
 
 		self.scout_tail = self.bodypart_location(-1)
 		self.scout_blocks = self.body()
-		self.scouted_distance = len(self.scouted - 1)
+		self.scouted_distance = len(self.scouted) - 1
 
 		self.pickup = [] # other cells you gain access to
 
