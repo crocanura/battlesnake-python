@@ -446,7 +446,7 @@ class Context:
 		vec_a = self.player.bodypart_location(0)
 		c = self.best_endpoint()
 		if c is None:
-			return None:
+			return None
 
 		c = c.scouting_intersect(self.player)
 
