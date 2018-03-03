@@ -280,9 +280,11 @@ class Context:
 
 		s = self.starving(asker)
 
+		food_modifier = 1.1*s*s-0.1
+
 		# return f*s*g+(1.0-s)*d**2
 
-		return f*s*s+d
+		return f*food_modifier+d
 
 	def actual_greed(self, asker):
 		# subtract 1 because of head cell
