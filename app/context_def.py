@@ -278,11 +278,11 @@ class Context:
 		# l = self.player.length()
 		# g = 1 + max_snake_length*1.4/l
 
-		# s = self.starving(asker)
+		s = self.starving(asker)
 
 		# return f*s*g+(1.0-s)*d**2
 
-		return f+d
+		return f*s*s+d
 
 	def actual_greed(self, asker):
 		# subtract 1 because of head cell
