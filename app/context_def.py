@@ -321,10 +321,10 @@ class Context:
 					for pre in pres:
 						if me not in pre.scout_favour:
 							pre.scout_favour[me] = {}
-							pre.scout_favour[me]['distance'] = 1.0
-							pre.scout_favour[me]['food'] = 0
+							pre.scout_favour[me]['distance'] = 0.0
+							pre.scout_favour[me]['food'] = 0.0
 						pre.scout_favour[me]['distance'] += cell.scout_favour[me]['distance']/div
-						pre.scout_favour[me]['food'] += cell.scout_favour[me]['distance']/(12*div)
+						pre.scout_favour[me]['food'] += cell.scout_favour[me]['food']/(12*div)
 
 		end_time = time.time()
 		print "Greed time: %s" % str(end_time-start_time)
