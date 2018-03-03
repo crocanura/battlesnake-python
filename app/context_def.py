@@ -184,7 +184,7 @@ class Context:
 						for nearby in self.board.neighbours(move.x, move.y):
 							nearby_cell = self.board.get_cell(*nearby)
 							if scouter in nearby_cell.scouting_numbers:
-								if nearby_cell.scouting_numbers[scouter] < sd:
+								if nearby_cell.scouting_numbers[scouter] == sd - 1: # like this one
 									move.scouting_precursors[scouter].append(nearby_cell)
 
 
